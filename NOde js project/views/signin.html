@@ -23,6 +23,7 @@
             <!-- <label class="eid"> Password</label><br> -->
             <input type="password" id="pswrd" name="emailid" placeholder="Strong Password" required><br><br><br>
             <button class="form" type="submit">Sign In</button>
+            <p id="result"></p>
         </form><br>
         <form action="signUp.html">
             <button type="submit">New User - Sign up </button>
@@ -49,57 +50,36 @@
                 console.log(obj);
 
                 // sending a post request and passing object to the server
-
-
-                const allData = await axios.get(`http://127.0.0.1:4000/login/${obj.userName}`)
-                    .then(response => { return (response.data) });
-                // const parent = document.getElementById("formtag");
-                
-                const para = document.createElement("p");
-                const element = document.getElementById("div1");
-            
-
-
-                if (allData.length ==0) {
-
-                    para.innerHTML = ' <p style = "color:red">Error :- Invalid Username</p>'
-                element.appendChild(para);
-
-
-
-                 }else if( allData[0].password == obj.passwrd) { 
-
-                    para.innerHTML = ' <p style = "color:green">Authentication Sucessful</p>'
-                element.appendChild(para);
-
-
-                 } else {
-                    para.innerHTML = ' <p style = "color:red">Error :- Incorrect Password</p>'
-                element.appendChild(para);
-
-                 }
-
-                } catch(e){
-
-                    console.log(e);
-                }}
-
+               
                 
 
+                const allData = await axios.get(`http://127.0.0.1:4000/login/${obj.userName}/${obj.passwrd}`)
+                    .then(res => {
+                        if (res.status === 200) {
+                            console.log(200);
+                            const para = document.getElementById("result");
+                            para.innerHTML = ' <p style = "color:green">Authentication Successful</p>'
+                          
+                        }
+                        
+                    }).catch( error => {
+                        if (error.response.status === 401) {
+                            console.log(error);
+                            const para = document.getElementById("result");
+                            para.innerHTML = ' <p style = "color:orange">Error :- User not authorised</p>'
+                            
+                        } else if (error.response.status === 404) {
+                            console.log(error);
+                            const para = document.getElementById("result");
+                            para.innerHTML = ' <p style = "color:red">Error :- User not found</p>'
+                            
+                        }})
 
+            } catch (e) {
 
-
-
-                
-
-           
-            // Getting the value in string format from the user
-
-
-     
-
-
-
+                console.log(e);
+            }
+        }
 
     </script>
 
