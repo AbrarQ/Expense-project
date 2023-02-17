@@ -11,9 +11,10 @@ const cors = require('cors');
 app.use(cors())
 const signuproutes = require('./routes/signupRoute');
 const signinroutes = require('./routes/signinRoute');
+const exproutes = require('./routes/expense');
 app.use(signuproutes);
 app.use(signinroutes);
-
+app.use(exproutes);
 
 
 

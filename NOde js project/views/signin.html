@@ -14,15 +14,17 @@
     <!--Creating a form to Take input details, which on submitting will call userDetails -->
     <div class="signin" id="div1">
         <form onsubmit="loguser(event)" id="formtag">
-            <label class="uname"> User Name</label><br>
+            <label> User Name</label><br>
             <input type="text" id="uname" name="username" placeholder="User Name" required><br><br>
             <!-- <label class="pn"> Phone Number</label><br>
             <input type="text" id="pnumber" name="phonenumber" placeholder="Phone Number" required><br><br>
             <label class="eid"> Email Id</label><br>
             <input type="email" id="eid" name="emailid" placeholder="Email Id" required><br><br> -->
-            <!-- <label class="eid"> Password</label><br> -->
+            <label> Password</label><br>
             <input type="password" id="pswrd" name="emailid" placeholder="Strong Password" required><br><br><br>
+
             <button class="form" type="submit">Sign In</button>
+
             <p id="result"></p>
         </form><br>
         <form action="signUp.html">
@@ -50,8 +52,7 @@
                 console.log(obj);
 
                 // sending a post request and passing object to the server
-               
-                
+
 
                 const allData = await axios.get(`http://127.0.0.1:4000/login/${obj.userName}/${obj.passwrd}`)
                     .then(res => {
@@ -59,21 +60,31 @@
                             console.log(200);
                             const para = document.getElementById("result");
                             para.innerHTML = ' <p style = "color:green">Authentication Successful</p>'
-                          
+
+                            function redirectFunc() {
+                                window.location.href = "/Users/tonystark/Downloads/Expense-project/NOde js project/views/expenseHome.html";
+                                
+                            }
+
+                            setTimeout(()=>{
+                                redirectFunc();
+                            },250)
+
                         }
-                        
-                    }).catch( error => {
+
+                    }).catch(error => {
                         if (error.response.status === 401) {
                             console.log(error);
                             const para = document.getElementById("result");
                             para.innerHTML = ' <p style = "color:red">Error :- Wrong Password</p>'
-                            
+
                         } else if (error.response.status === 404) {
                             console.log(error);
                             const para = document.getElementById("result");
                             para.innerHTML = ' <p style = "color:red">Error :- User not found</p>'
-                            
-                        }})
+
+                        }
+                    })
 
             } catch (e) {
 

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign IN</title>
+    <link rel="stylesheet" href="signup.css">
+
+</head>
+
+<body>
+    <!--Creating a form to Take input details, which on submitting will call userDetails -->
+    <div class="expensehome" id="div1">
+        <form onsubmit="saveExpense(event)" id="formtag">
+            <label> Expense Amount</label><br>
+            <input type="text" id="expenseamount" name="expamount" placeholder="Rs. XXXXX/-" required><br><br>
+            <label>Description</label><br>
+            <input type="text" id="expdescp" name="expdescription" placeholder="Ex : Dinner Party on Eid"
+                required><br><br>
+
+            <label> Category</label><br>
+            <select id="category">
+                <option value="select">Select</option>
+                <option value="">---------------------</option>
+                <option value="Fuel">Fuel</option>
+                <option value="Electricity">Electricity</option>
+                <option value="Ration">Ration</option>
+                <option value="Entertainment">Entertainment</option>
+                <option value="Shopping">Shopping</option>
+                <option value="Dining">Dining</option>
+                <option value="OTT">OTT Subscription</option>
+                <option value="Veggies">Veggies</option>
+                <option value="Dailydairy">Daily-Purchases</option>
+            </select>
+
+            <button class="form" type="submit">Submit</button>
+
+        </form>
+    </div>
+    <div class="di">
+        <ul id="listofexpenses"></ul>
+    </div>
+
+
+    <!-- <form action="signUp.html">
+            <button type="submit">New User - Sign up </button>
+        </form> -->
+
+
+
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.3/axios.min.js"></script>
+    <script>
+
+        async function saveExpense(event) {
+            event.preventDefault();
+            try {
+                const amount = document.getElementById("expenseamount").value;
+                const description = document.getElementById("expdescp").value;
+                const category = document.getElementById("category").value;
+
+                // console.log(amount);
+                // console.log(description);
+                // console.log(category);
+
+
+                const expObj = {
+                    amount,
+                    description,
+                    category
+                }
+                
+                const status = await axios.post('http://127.0.0.1:4000/login/add-expense', expObj).then((response) => { returnItToUi(response.data)
+                console.log(response.data) })
+
+                document.getElementById("expenseamount").value = "";
+                document.getElementById("expdescp").value = "";
+                document.getElementById("category").value = "Select";
+
+
+            } catch (e) {
+                console.log(e);
+            }
+        };
+
+
+
+        function returnItToUi(obj) {
+            console.log(obj.amount)
+
+            try {
+                // getting the id of ul tag to create ne li tags under it
+                const parentElement = document.getElementById("listofexpenses");
+                // creatting a new li tag to store our data from obj
+                const childElement = document.createElement("li");
+                // using text content to display the data passed on from the obj
+                childElement.textContent = obj.amount + ' - ' + obj.description + ' - ' + obj.category + ' - ';
+
+
+                // giving attibutes to DELETE button
+                const delbtn = document.createElement("input");
+                delbtn.type = "button";
+                delbtn.value = "Delete";
+                delbtn.style = "margin-bottom: 5px;"               
+
+
+
+                // appending should be done the order we want them to be dispalyed 
+
+                childElement.append('    -    ');
+                childElement.append(delbtn);
+                parentElement.appendChild(childElement);
+                //  When clicked removes the data from local storage
+                delbtn.onclick = async () => {
+
+
+                    try { //DELETES THE OBJ, WHERE ID IS GIVEN
+                        var id = `${obj.id}`
+
+                        // console.log(id);
+                        const user = await axios.delete(`http://127.0.0.1:4000/login/delete-expense/${obj.id}`)
+                            .then(alert("Deleted"), parentElement.removeChild(childElement))
+                            .catch(err => console.log(err));
+                            
+                    } catch (e) {
+                        console.log(e)
+                    }
+
+                }
+
+
+            } catch (e) {
+                console.log(e);
+            }
+
+
+
+
+
+        }
+
+
+
+        // // This Event listener helps us to load the data, we can even use 
+        // //Location.reload(), but DOM Content loaded happens prior to reload.
+
+
+
+
+        window.addEventListener("DOMContentLoaded", async () => {
+
+            try {
+                const dbData = await axios.get('http://127.0.0.1:4000/login/get-expense').then(response => { return (response.data) });
+                // console.log(dbData[0]);
+                
+                if (dbData.length == 0) {
+                    alert("No More Expenses to Show");
+                }
+
+                for (let i = 0; i < dbData.length; i++) {
+                    returnItToUi(dbData[i]);
+                    // console.log(dbData[i]);
+
+                }
+            }
+            catch (e) {
+                console.log(e);
+            }
+
+        })
+    </script>
+
+
+</body>
+
+</html>

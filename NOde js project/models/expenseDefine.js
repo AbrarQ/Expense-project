@@ -7,7 +7,8 @@ const sequelizedb  = require('../util/dbConnect');
 
 
 
-const usersModel = sequelizedb.define('userlogins',{
+
+const expmodel = sequelizedb.define('expenses',{
   id : { 
     type : Sequelize.INTEGER, 
     autoIncrement : true,
@@ -15,27 +16,22 @@ const usersModel = sequelizedb.define('userlogins',{
     primaryKey : true,
   },
 
-  name : { 
+  amount : { 
     type : Sequelize.STRING, 
     allowNull : false,
  
   },
 
-  email : { 
-    type : Sequelize.INTEGER,
+  description : { 
+    type : Sequelize.STRING,
     allowNull : false, 
     
   },
-  phonenumber : { 
-    type : Sequelize.INTEGER,
-    allowNull : false, 
-    
-  },
-  password : { 
+  category : { 
     type : Sequelize.STRING,
     allowNull : false, 
     
   },
 })
 
-module.exports = usersModel;
+module.exports = expmodel;

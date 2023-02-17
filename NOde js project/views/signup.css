@@ -1,9 +1,24 @@
-.signup,.signin{
+.signup,.signin,.expensehome{
 
 
-    
+    margin-top: 100px;
     text-align: center;
-margin: 100px;
+    
+   
+    
+
+   
+
+}
+
+.di {
+ 
+ text-align: center;
+    margin: auto;
+    width: 60%;
+    padding: 10px;
+    margin-bottom: 5px;
+   
 
    
 
