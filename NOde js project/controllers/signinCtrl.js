@@ -1,11 +1,12 @@
 const { all } = require('axios');
 const usersModel = require('../models/dbDefine')
+const bcrypt = require('bcrypt');
 
 
 exports.getUsers = async (req, res, next) => {
 
     const user = req.params.id;
-    const pass = req.params.pass;
+    
 
   
    
@@ -14,19 +15,27 @@ exports.getUsers = async (req, res, next) => {
         const allData = await usersModel.findAll({ where: { name: user } }).then(response => response);
         const check = JSON.stringify(allData);
         const final = JSON.parse(check)
+        console.log(final)
 
-        // console.log(final[0].password)
-        // console.log(req.params.pass)
-        // console.log(req.params.id)
-
-        if (final.length == 0) {
+        if (final.length==0){
             res.status(404).send();
-        } else if (final[0].password != pass) {
-            res.status(401).send();
-        } else if (final[0].password == pass) {
-            console.log("found")
+        
+        } else{
+        const hashPass = final[0].password
+        const pass = req.params.pass;
+        const comparePass = await  bcrypt.compare(pass,hashPass);
+
+        console.log(comparePass); 
+
+        if (comparePass == false) {
+
+           res.status(401).send()
+        } else if (comparePass == true) {
+          
             res.status(200).send();
         }
+    }
+    
 
 
 
