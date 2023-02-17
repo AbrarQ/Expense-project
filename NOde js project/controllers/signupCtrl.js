@@ -1,30 +1,28 @@
 const usersModel = require('../models/dbDefine')
 
-exports.saveUsers =async(req,res,next)=>{
 
-    const usrName = req.body.userdata;
-    const emailid = req.body.emaildata;
-    const pnumber = req.body.pnumberdata;
-    const pswrd = req.body.passwordData
+exports.saveUsers = async (req, res, next) => {
+
+    
 
     console.log(req.body.userdata);
     console.log(req.body.emaildata);
     console.log(req.body.pnumberdata);
     console.log(req.body.passwordData);
-    
-try{
-    const data = await usersModel.create({
-        name : usrName,
-        email : emailid,
-        phonenumber : pnumber,
-        password : pswrd
-    }).then(console.log("done"))
 
-    res.json(data);
-} catch(e){
+    try {
+        const data = await usersModel.create({
+            name: req.body.userdata,
+            email: req.body.emaildata,
+            phonenumber: req.body.pnumberdata,
+            password: req.body.passwordData
+        }).then(console.log("done"))
 
-}
-    
+        res.json(data);
+    } catch (e) {
+        console.log(e)
+    }
+
 }
 
 

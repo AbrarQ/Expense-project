@@ -12,24 +12,96 @@
 
 <body>
     <!--Creating a form to Take input details, which on submitting will call userDetails -->
-    <div class="signin">
-        <form>
+    <div class="signin" id="div1">
+        <form onsubmit="loguser(event)" id="formtag">
             <label class="uname"> User Name</label><br>
             <input type="text" id="uname" name="username" placeholder="User Name" required><br><br>
-            <label class="pn"> Phone Number</label><br>
+            <!-- <label class="pn"> Phone Number</label><br>
             <input type="text" id="pnumber" name="phonenumber" placeholder="Phone Number" required><br><br>
             <label class="eid"> Email Id</label><br>
-            <input type="email" id="eid" name="emailid" placeholder="Email Id" required><br><br>
-            <label class="eid"> Password</label><br>
-            <input type="password" id="eid" name="emailid" placeholder="Email Id" required><br><br><br>
+            <input type="email" id="eid" name="emailid" placeholder="Email Id" required><br><br> -->
+            <!-- <label class="eid"> Password</label><br> -->
+            <input type="password" id="pswrd" name="emailid" placeholder="Strong Password" required><br><br><br>
             <button class="form" type="submit">Sign In</button>
         </form><br>
         <form action="signUp.html">
-        <button type="submit">New User - Sign up </button>
-    </form>
+            <button type="submit">New User - Sign up </button>
+        </form>
     </div>
 
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.3/axios.min.js"></script>
+    <script>
+
+        async function loguser(event) {
+            event.preventDefault();
+            //using try and catch block to catch the errors
+            try {
+                const userName = document.getElementById("uname").value;
+                // const pnumberdata1 = document.getElementById("pnumber").value;
+                // const emaildata1 = document.getElementById("eid").value;
+                const passwrd = document.getElementById("pswrd").value;
+                //Storing them into a object format
+                const obj = {
+                    userName,
+                    passwrd
+                }
+                console.log(obj);
+
+                // sending a post request and passing object to the server
+
+
+                const allData = await axios.get(`http://127.0.0.1:4000/login/${obj.userName}`)
+                    .then(response => { return (response.data) });
+                // const parent = document.getElementById("formtag");
+                
+                const para = document.createElement("p");
+                const element = document.getElementById("div1");
+            
+
+
+                if (allData.length ==0) {
+
+                    para.innerHTML = ' <p style = "color:red">Error :- Invalid Username</p>'
+                element.appendChild(para);
+
+
+
+                 }else if( allData[0].password == obj.passwrd) { 
+
+                    para.innerHTML = ' <p style = "color:green">Authentication Sucessful</p>'
+                element.appendChild(para);
+
+
+                 } else {
+                    para.innerHTML = ' <p style = "color:red">Error :- Incorrect Password</p>'
+                element.appendChild(para);
+
+                 }
+
+                } catch(e){
+
+                    console.log(e);
+                }}
+
+                
+
+
+
+
+
+                
+
+           
+            // Getting the value in string format from the user
+
+
+     
+
+
+
+
+    </script>
 
 
 </body>

@@ -1,10 +1,7 @@
 const express = require('express');
-
-const signupControl = require('../controllers/signupCtrl');
 const router = express.Router();
-
+const signupControl = require('../controllers/signupCtrl');
 
 router.post('/save-users', signupControl.saveUsers);
-
 
 module.exports = router;
