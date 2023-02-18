@@ -22,6 +22,7 @@ const expmodel = sequelizedb.define('expenses',{
 
   description : { 
     type : Sequelize.STRING,
+    
     allowNull : false, 
     
   },

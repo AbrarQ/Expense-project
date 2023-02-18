@@ -37,7 +37,11 @@
 
             <button class="form" type="submit">Submit</button>
 
-        </form>
+        </form><br><br>
+
+        <button style="background-color: aqua; border-radius: 1px;" type="submit" id="premium">Buy Premium
+            Membership</button>
+        <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     </div>
     <div class="di">
         <ul id="listofexpenses"></ul>
@@ -72,10 +76,12 @@
                     description,
                     category
                 }
-                const token= localStorage.getItem('token')
-                
-                const status = await axios.post('http://127.0.0.1:4000/login/add-expense', expObj,{ headers : { "Authorization" : token}}).then((response) => { returnItToUi(response.data)
-                console.log(response.data) })
+                const token = localStorage.getItem('token')
+
+                const status = await axios.post('http://127.0.0.1:4000/login/add-expense', expObj, { headers: { "Authorization": token } }).then((response) => {
+                    returnItToUi(response.data)
+                    console.log(response.data)
+                })
 
                 document.getElementById("expenseamount").value = "";
                 document.getElementById("expdescp").value = "";
@@ -105,7 +111,7 @@
                 const delbtn = document.createElement("input");
                 delbtn.type = "button";
                 delbtn.value = "Delete";
-                delbtn.style = "margin-bottom: 5px;"               
+                delbtn.style = "margin-bottom: 5px;"
 
 
 
@@ -126,10 +132,10 @@
                         const token = localStorage.getItem('token')
                         console.log(id)
                         console.log(token)
-                        const user = await axios.delete(`http://127.0.0.1:4000/login/delete-expense/${obj.id}`,{ headers : { "Authorization" : token}})
+                        const user = await axios.delete(`http://127.0.0.1:4000/login/delete-expense/${obj.id}`, { headers: { "Authorization": token } })
                             .then(alert("Deleted"), parentElement.removeChild(childElement))
                             .catch(err => console.log(err));
-                            
+
                     } catch (e) {
                         console.log(e)
                     }
@@ -158,9 +164,9 @@
 
             try {
 
-                const token= localStorage.getItem('token')
+                const token = localStorage.getItem('token')
                 console.log(token)
-                const dbData = await axios.get('http://127.0.0.1:4000/login/get-expense', { headers : { "Authorization" : token}}).then(response => { return (response.data) });
+                const dbData = await axios.get('http://127.0.0.1:4000/login/get-expense', { headers: { "Authorization": token } }).then(response => { return (response.data) });
                 // console.log(dbData[0]);
                 console.log(dbData)
                 if (dbData.length == 0) {
@@ -178,6 +184,47 @@
             }
 
         })
+
+
+
+
+
+        document.getElementById("premium").onclick = async function (e) {
+            // So inorder to know which user is creating we use token saved
+            const token = localStorage.getItem('token')
+            console.log(token)
+            const response = await axios.get('http://127.0.0.1:4000/login/premium', { headers: { "Authorization": token } })
+            console.log(response)
+
+            var options = {
+                "key": response.data.key_id,
+                "order_id": response.data.orderid.id,
+                "handler": async function (response) {
+                    console.log("before axios")
+                    await axios.post('http://127.0.0.1:4000/login/updatetransactionstatus', {
+                        order_id: options.order_id,
+                        payment_id: response.razorpay_payment_id,
+                    }, { headers: { "Authorization": token } }).then(res => {
+                        if (res.status === 201) {
+
+                            alert(res.data.message)
+                        }
+                    })
+
+                }
+            }
+            const rzrpay = new Razorpay(options);
+            rzrpay.open();
+            e.preventDefault;
+
+            rzrpay.on('payment.failed', (response) => {
+                console.log(response);
+                alert("Something went wrong")
+            })
+
+
+
+        }
     </script>
 
 

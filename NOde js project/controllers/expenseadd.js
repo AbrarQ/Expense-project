@@ -10,7 +10,7 @@ exports.addExpense = async (req, res, next) => {
         // console.log(req.body.description)
         // console.log(req.body.category)
 
-
+    
 
        await expModel.create({
             amount: req.body.amount,

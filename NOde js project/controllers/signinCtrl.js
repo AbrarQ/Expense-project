@@ -7,18 +7,18 @@ const jwt = require('jsonwebtoken')
 
 
 function generateAuthToken(id){
-    return jwt.sign({userId : id}, 'mysecret')
+    return jwt.sign({userId : id}, 'secretkey')
 }
-
 
 
 exports.getUsers = async (req, res, next) => {
 
     const user = req.params.id;
+    console.log(user)
     
 
   
-    
+
    
     try {
 

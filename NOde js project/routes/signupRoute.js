@@ -4,5 +4,6 @@ const signupControl = require('../controllers/signupCtrl');
 
 router.post('/save-users', signupControl.saveUsers);
 
+
 module.exports = router;
 

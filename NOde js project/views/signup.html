@@ -49,13 +49,12 @@
                     passwordData
                 }
                 console.log(obj);
-                
                
                 // sending a post request and passing object to the server
                await axios.post("http://127.0.0.1:4000/save-users", obj)
                     .then(res => {
                         if (res.status === 200) {
-                            console.log(200);
+                            console.log(res.data.message);
                             const para = document.getElementById("result");
                             para.innerHTML = '<p style = "color:green"> User Created Successfully</p>'
                           
