@@ -3,6 +3,7 @@ const expModel = require('../models/expenseDefine')
 
 
 
+
 exports.addExpense = async (req, res, next) => {
     try {
         // console.log(req.body.amount)
@@ -11,13 +12,16 @@ exports.addExpense = async (req, res, next) => {
 
 
 
-      const userData =  await expModel.create({
+       await expModel.create({
             amount: req.body.amount,
             description: req.body.description,
-            category: req.body.category
+            category: req.body.category,
+            userloginId : req.user.id
+        }).then((data)=> {
+            return res.status(200).json(expenses)
         })
 
-        res.json(userData);
+        
     } catch (e) { console.log(e) }
 
 
@@ -28,10 +32,10 @@ exports.addExpense = async (req, res, next) => {
 // router.get('/get-expense',
 exports.getExpense = async(req,res,next)=> {
     try{
+        await expModel.findAll({where :{userloginId :req.user.id}}).then( expenses =>{
+            return res.status(200).json(expenses)})
 
-        const allUsers = await expModel.findAll();
-
-       res.json(allUsers)
+       
     }catch(e){
         console.log(e)
     }
@@ -42,11 +46,11 @@ exports.getExpense = async(req,res,next)=> {
 // router.delete('/del-expense/:id',
 exports.delExpense = async(req,res,next)=> {
 
+  
     const expID = req.params.id;
-    
     try{
-        await expModel.destroy({where :{id :expID}})
-        res.status(200).send()
+        await expModel.destroy({where :{userloginId :req.user.id, id :expID}}).then( expenses =>{
+        return res.status(200).json(expenses)})
     }catch(e){
 
     }

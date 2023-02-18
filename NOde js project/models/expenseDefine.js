@@ -6,8 +6,6 @@ const sequelizedb  = require('../util/dbConnect');
 
 
 
-
-
 const expmodel = sequelizedb.define('expenses',{
   id : { 
     type : Sequelize.INTEGER, 

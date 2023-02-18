@@ -1,6 +1,15 @@
 const { all } = require('axios');
 const usersModel = require('../models/dbDefine')
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken')
+
+
+
+
+function generateAuthToken(id){
+    return jwt.sign({userId : id}, 'mysecret')
+}
+
 
 
 exports.getUsers = async (req, res, next) => {
@@ -33,7 +42,7 @@ exports.getUsers = async (req, res, next) => {
            res.status(401).send()
         } else if (comparePass == true) {
           
-            res.status(200).send();
+            res.status(200).json({token : generateAuthToken(final[0].id), message : "Login done"});
         }
     }
     

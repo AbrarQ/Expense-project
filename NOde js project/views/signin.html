@@ -57,14 +57,18 @@
                 const allData = await axios.get(`http://127.0.0.1:4000/login/${obj.userName}/${obj.passwrd}`)
                     .then(res => {
                         if (res.status === 200) {
-                            console.log(200);
-                            const para = document.getElementById("result");
-                            para.innerHTML = ' <p style = "color:green">Authentication Successful</p>'
+                            console.log(res.data.token);
+                            alert(res.data.message)
 
-                            function redirectFunc() {
-                                window.location.href = "/Users/tonystark/Downloads/Expense-project/NOde js project/views/expenseHome.html";
+                            localStorage.setItem('token', res.data.token)
+                            // console.log(200);
+                            // const para = document.getElementById("result");
+                            // para.innerHTML = ' <p style = "color:green">Authentication Successful</p>'
+
+                         
+                                window.location.href = "./expenseHome.html"
                                 
-                            }
+                        
 
                             setTimeout(()=>{
                                 redirectFunc();

@@ -72,8 +72,9 @@
                     description,
                     category
                 }
+                const token= localStorage.getItem('token')
                 
-                const status = await axios.post('http://127.0.0.1:4000/login/add-expense', expObj).then((response) => { returnItToUi(response.data)
+                const status = await axios.post('http://127.0.0.1:4000/login/add-expense', expObj,{ headers : { "Authorization" : token}}).then((response) => { returnItToUi(response.data)
                 console.log(response.data) })
 
                 document.getElementById("expenseamount").value = "";
@@ -121,7 +122,11 @@
                         var id = `${obj.id}`
 
                         // console.log(id);
-                        const user = await axios.delete(`http://127.0.0.1:4000/login/delete-expense/${obj.id}`)
+
+                        const token = localStorage.getItem('token')
+                        console.log(id)
+                        console.log(token)
+                        const user = await axios.delete(`http://127.0.0.1:4000/login/delete-expense/${obj.id}`,{ headers : { "Authorization" : token}})
                             .then(alert("Deleted"), parentElement.removeChild(childElement))
                             .catch(err => console.log(err));
                             
@@ -130,7 +135,6 @@
                     }
 
                 }
-
 
             } catch (e) {
                 console.log(e);
@@ -153,9 +157,12 @@
         window.addEventListener("DOMContentLoaded", async () => {
 
             try {
-                const dbData = await axios.get('http://127.0.0.1:4000/login/get-expense').then(response => { return (response.data) });
+
+                const token= localStorage.getItem('token')
+                console.log(token)
+                const dbData = await axios.get('http://127.0.0.1:4000/login/get-expense', { headers : { "Authorization" : token}}).then(response => { return (response.data) });
                 // console.log(dbData[0]);
-                
+                console.log(dbData)
                 if (dbData.length == 0) {
                     alert("No More Expenses to Show");
                 }

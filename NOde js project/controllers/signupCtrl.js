@@ -25,7 +25,7 @@ exports.saveUsers = async (req, res, next) => {
                 phonenumber: req.body.pnumberdata,
                 password: hashedPass
             })
-            res.status(200).json(data);
+            res.status(200).json({message : "User Created Succesfully"});
 
 
         }
