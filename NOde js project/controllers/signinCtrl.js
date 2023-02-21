@@ -19,7 +19,6 @@ exports.getUsers = async (req, res, next) => {
 
   
 
-   
     try {
 
         const allData = await usersModel.findAll({ where: { name: user } }).then(response => response);

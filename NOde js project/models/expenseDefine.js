@@ -20,6 +20,7 @@ const expmodel = sequelizedb.define('expenses',{
  
   },
 
+  
   description : { 
     type : Sequelize.STRING,
     
@@ -31,6 +32,10 @@ const expmodel = sequelizedb.define('expenses',{
     allowNull : false, 
     
   },
+  userloginId :
+  {
+    type : Sequelize.INTEGER
+  }
 })
 
 module.exports = expmodel;

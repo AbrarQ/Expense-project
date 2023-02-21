@@ -2,6 +2,15 @@ const Razorpay = require('razorpay');
 const order = require('../models/order')
 const users = require('../models/dbDefine')
 
+
+const jwt = require('jsonwebtoken')
+
+
+
+function generateAuthToken(uid){
+    return jwt.sign({userId : uid, ispremium :"1"}, 'secretkey')
+}
+
 exports.purchasePremium = async (req, res, next)=>{
     try{
         console.log("Entering Purchase Section")
@@ -38,21 +47,30 @@ exports.postTransaction = async( req, res, next)=> {
         {where : { orderid : req.body.order_id}}
 
     )
+
+    const uid =req.user.id;
+    console.log("making him premium")
+
+    await users.update({
+        ispremium : '1',
+    }, {where : { id : uid}}
+    ).then(()=> {
+
+    res.status(201).json({token : generateAuthToken(uid),message : "You are a premium user now"})})
+
     next();
 
 }
 
 exports.makeHimPremium = async( req, res, next)=> {
-    console.log(req.user.id)
-    console.log("making him premium")
-
+ 
 
     await users.update({
-        ispremium : 1,
-    }, {where : { id : req.user.id}}
-    ).then(()=> {
+        ispremium : "1",
+       }, {where : { orderid : req.body.order_id}}
 
-    res.status(201).json({message : "You are a premium user now"})})
+    )
+
 
 
 }

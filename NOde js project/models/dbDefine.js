@@ -1,6 +1,7 @@
 
 
 const Sequelize = require ('sequelize');
+const sequelize = require('../util/dbConnect');
 
 const sequelizedb  = require('../util/dbConnect');
 
@@ -35,6 +36,13 @@ const usersModel = sequelizedb.define('userlogins',{
     allowNull : false, 
     
   },
+  ispremium : { 
+    type : Sequelize.STRING,
+    allowNull : true, 
+    
+  }
+  
 })
+
 
 module.exports = usersModel;

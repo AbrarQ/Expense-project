@@ -5,7 +5,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 const sequelize = require('./util/dbConnect');
 const Expense = require('./models/expenseDefine');
-const User = require('./models/dbDefine');
+const UserE = require('./models/dbDefine');
+const UserO = require('./models/dbDefine');
 const Orders = require('./models/order');
 
 
@@ -22,20 +23,19 @@ app.use(signinroutes);
 app.use(exproutes);
 app.use(purchaseRoutes);
 
-// (User).hasMany(Expense);
-// Expense.belongsTo(User)
+// (UserE).hasMany(Expense);
+// Expense.belongsTo(UserE)
 
-(User).hasMany(Orders);
-(Orders).belongsTo(User)
+// (UserO).hasMany(Orders);
+// (Orders).belongsTo(UserO)
 
 
-//  sequelize.sync({force : true}).then(result => 
+//  sequelize.sync({}).then(result => 
 //     {
 //         console.log(result)
 //     }).catch(err => {
 //         console.log(err)
 //     })
-
 
 
    

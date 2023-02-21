@@ -1,6 +1,5 @@
 const usersModel = require('../models/dbDefine')
 
-
 module.exports = async function (userName){
 
     const allData = await usersModel.findAll({ where: { name: userName } }).then(response => response);

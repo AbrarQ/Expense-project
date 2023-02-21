@@ -41,11 +41,24 @@
 
         <button style="background-color: aqua; border-radius: 1px;" type="submit" id="premium">Buy Premium
             Membership</button>
+        <p id="puser"></p>
+        <button style="background-color: burlywood; border-radius: 1px;" type="submit" id="leaderboard"
+            onclick="leaderboard()">
+            Show Leader Board</button>
         <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     </div>
-    <div class="di">
+    <div class="exp">
+        <label style="font-weight: 800;">Expenses</label>
         <ul id="listofexpenses"></ul>
     </div>
+
+    <div id="ldr">
+
+
+
+    </div>
+    <ul id="listoftop"></ul>
+
 
 
     <!-- <form action="signUp.html">
@@ -57,46 +70,21 @@
 
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.3/axios.min.js"></script>
+
+
     <script>
 
-        async function saveExpense(event) {
-            event.preventDefault();
-            try {
-                const amount = document.getElementById("expenseamount").value;
-                const description = document.getElementById("expdescp").value;
-                const category = document.getElementById("category").value;
-
-                // console.log(amount);
-                // console.log(description);
-                // console.log(category);
 
 
-                const expObj = {
-                    amount,
-                    description,
-                    category
-                }
-                const token = localStorage.getItem('token')
-
-                const status = await axios.post('http://127.0.0.1:4000/login/add-expense', expObj, { headers: { "Authorization": token } }).then((response) => {
-                    returnItToUi(response.data)
-                    console.log(response.data)
-                })
-
-                document.getElementById("expenseamount").value = "";
-                document.getElementById("expdescp").value = "";
-                document.getElementById("category").value = "Select";
 
 
-            } catch (e) {
-                console.log(e);
-            }
-        };
+
+
 
 
 
         function returnItToUi(obj) {
-            console.log(obj.amount)
+            // console.log(obj.amount)
 
             try {
                 // getting the id of ul tag to create ne li tags under it
@@ -163,14 +151,30 @@
         window.addEventListener("DOMContentLoaded", async () => {
 
             try {
+                // if (localStorage.getItem("premium")==="yes"){
 
+                //     
                 const token = localStorage.getItem('token')
-                console.log(token)
+                const premiumcheck = localStorage.getItem('ispremium')
+                // console.log(token)
+                console.log(premiumcheck)
+                if (premiumcheck != null) {
+                    const PremiumCheck = await axios.get('http://127.0.0.1:4000/login/check', { headers: { "Authorization": premiumcheck } })
+                        .then(response => {
+                            if (response.status === 200) {
+                                document.getElementById("premium").remove();
+                                document.getElementById("puser").innerHTML += response.data.message + "<br>"
+                            }
+                        })
+                }
+
+
+
                 const dbData = await axios.get('http://127.0.0.1:4000/login/get-expense', { headers: { "Authorization": token } }).then(response => { return (response.data) });
                 // console.log(dbData[0]);
-                console.log(dbData)
+                // console.log(dbData)
                 if (dbData.length == 0) {
-                    alert("No More Expenses to Show");
+                    document.getElementById("puser").innerHTML += "No Transactions to show"
                 }
 
                 for (let i = 0; i < dbData.length; i++) {
@@ -178,6 +182,10 @@
                     // console.log(dbData[i]);
 
                 }
+
+
+
+
             }
             catch (e) {
                 console.log(e);
@@ -208,8 +216,16 @@
                         if (res.status === 201) {
 
                             alert(res.data.message)
+
+                            localStorage.setItem("ispremium", res.data.token)
                         }
                     })
+
+                    document.getElementById("premium").remove();
+                    document.getElementById("puser").innerHTML = "You are a premium user now"
+
+                    localStorage.setItem("premium", "yes");
+
 
                 }
             }
@@ -221,13 +237,37 @@
                 console.log(response);
                 alert("Something went wrong")
             })
+        }
 
 
+
+        async function leaderboard(event) {
+            document.getElementById("ldr").innerHTML = "<label style='font-weight: 800;'>Leader Board</label>";
+
+
+            console.log("leaderboard getting clicked")
+
+            const leaderArray = await axios.get('http://127.0.0.1:4000/premium/leaderboard').then(response => response.data);
+
+            for (let i = 0; i < leaderArray.length; i++) {
+
+
+            
+                const parEle = document.getElementById("listoftop");
+
+                const chilEle = document.createElement("li");
+
+                chilEle.innerText = 'Name : ' + leaderArray[i][1] + ' Total Expenses : ' + leaderArray[i][0];
+      
+                parEle.appendChild(chilEle);
+
+            }
+
+           
 
         }
     </script>
-
-
 </body>
+
 
 </html>
