@@ -18,13 +18,15 @@ const signuproutes = require('./routes/signupRoute');
 const signinroutes = require('./routes/signinRoute');
 const exproutes = require('./routes/expense');
 const purchaseRoutes = require('./routes/purchase');
+const premiumRoutes = require('./routes/premium');
 app.use(signuproutes);
 app.use(signinroutes);
 app.use(exproutes);
 app.use(purchaseRoutes);
+app.use(premiumRoutes);
 
-// (UserE).hasMany(Expense);
-// Expense.belongsTo(UserE)
+(UserE).hasMany(Expense);
+Expense.belongsTo(UserE)
 
 // (UserO).hasMany(Orders);
 // (Orders).belongsTo(UserO)

@@ -246,8 +246,10 @@
 
 
             console.log("leaderboard getting clicked")
+            
 
             const leaderArray = await axios.get('http://127.0.0.1:4000/premium/leaderboard').then(response => response.data);
+            console.log(leaderArray)
 
             for (let i = 0; i < leaderArray.length; i++) {
 
@@ -257,7 +259,7 @@
 
                 const chilEle = document.createElement("li");
 
-                chilEle.innerText = 'Name : ' + leaderArray[i][1] + ' Total Expenses : ' + leaderArray[i][0];
+                chilEle.innerText = 'Name : ' + `${leaderArray[i].name}` +' - '+ ' Total Expenses : ' + `${leaderArray[i].total_spend}`;
       
                 parEle.appendChild(chilEle);
 

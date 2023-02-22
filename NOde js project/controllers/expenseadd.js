@@ -63,23 +63,6 @@ exports.delExpense = async(req,res,next)=> {
 };
 
 
-exports.getLeaderBoard = async(req,res,next)=> {
-    try{
-       const leaderArray = await loginModel.findAll({where : { ispremium : "1"}});
-        const leaderarr = JSON.parse(JSON.stringify(leaderArray));
 
-        let resarr =[];
-        for( let i = 0;i <leaderarr.length;i++){
-
-        const exparray = await expModel.sum('amount',{where :{userloginId :leaderarr[i].id }},);
-        const exparr = JSON.parse(JSON.stringify(exparray));
-       resarr[i]= [exparr,leaderarr[i].name];
-       resarr.sort(function(a, b){return b[0] - a[0]});
-    }
-    res.status(200).json(resarr)
-    }catch(e){
-        console.log(e)
-    }
-}
 
 
