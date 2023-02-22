@@ -6,7 +6,6 @@ const users = require('../models/dbDefine')
 const jwt = require('jsonwebtoken')
 
 
-
 function generateAuthToken(uid){
     return jwt.sign({userId : uid, ispremium :"1"}, 'secretkey')
 }

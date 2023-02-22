@@ -10,11 +10,10 @@ const { json } = require('body-parser');
 
 exports.addExpense = async (req, res, next) => {
     try {
-        // console.log(req.body.amount)
-        // console.log(req.body.description)
-        // console.log(req.body.category)
+        console.log(req.body.amount)
+        console.log(req.body.description)
+        console.log(req.body.category)
 
-    
 
        await expModel.create({
             amount: req.body.amount,
@@ -39,9 +38,6 @@ exports.getExpense = async(req,res,next)=> {
         await expModel.findAll({where :{userloginId :req.user.id}}).then( expenses =>{
             return res.status(200).json(expenses)})
 
-           
-
-       
     }catch(e){
         console.log(e)
     }

@@ -39,7 +39,6 @@ Expense.belongsTo(UserE)
 //         console.log(err)
 //     })
 
-
    
 app.listen(4000);
  
