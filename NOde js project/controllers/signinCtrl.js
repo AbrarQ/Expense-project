@@ -47,3 +47,36 @@ exports.getUsers = async (req, res, next) => {
 }
 
 
+exports.resetPass = async( req, res, next)=> {
+    console.log( req.body.emailid)
+    
+    const { GetEmailCampaign } = require('sib-api-v3-sdk');
+const Sib = require('sib-api-v3-sdk');
+
+
+require('dotenv').config();
+
+const client = Sib.ApiClient.instance
+
+const apikey = client.authentications['api-key'];
+apikey.apikey = process.env.API_KEY 
+
+const tranEmailApi = new Sib.TransactionalEmailsApi();
+
+const sender = {
+    email : 'abrarquraishi99@gmail.com'
+}
+
+tranEmailApi.sendTransacEmail({
+    sender,
+    to : req.body.emailid,
+    subject : "Password Reset Link for Expenses App",
+    textContent : "Please click below to reset your password"
+})
+.then(response => console.log(response))
+.catch((err)=> { console.log(err)})
+
+  
+}
+
+

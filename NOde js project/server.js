@@ -24,6 +24,7 @@ app.use(signinroutes);
 app.use(exproutes);
 app.use(purchaseRoutes);
 app.use(premiumRoutes);
+require("dotenv").config();
 
 (UserE).hasMany(Expense);
 Expense.belongsTo(UserE)
@@ -39,6 +40,7 @@ Expense.belongsTo(UserE)
 //         console.log(err)
 //     })
 
+console.log(process.env.API_KEY);
    
 app.listen(4000);
  
