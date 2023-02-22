@@ -14,13 +14,10 @@ exports.getUsers = async (req, res, next) => {
 
     const user = req.params.id;
     console.log(user)
-    
 
-  
 
-    try {
-
-        const allData = await usersModel.findAll({ where: { name: user } }).then(response => response);
+        const allData = await usersModel.findAll({ where: { name: user } }).then(response => response)
+         .catch(async(err)=> res.status(500).json({err}))
         const check = JSON.stringify(allData);
         const final = JSON.parse(check)
         console.log(final)
@@ -46,10 +43,6 @@ exports.getUsers = async (req, res, next) => {
     
 
 
-
-    } catch (e) {
-        console.log(e)
-    }
 
 }
 

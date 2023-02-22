@@ -1,15 +1,15 @@
 
 async function saveExpense(event) {
     event.preventDefault();
-    console.log("Save Expense -1")
-    try {
+   
+    
         const amount = document.getElementById("expenseamount").value;
         const description = document.getElementById("expdescp").value;
         const category = document.getElementById("category").value;
 
-        console.log(amount);
-        console.log(description);
-        console.log(category);
+        // console.log(amount);
+        // console.log(description);
+        // console.log(category);
 
 
         const expObj = {
@@ -20,17 +20,22 @@ async function saveExpense(event) {
 
         const token = localStorage.getItem('token')
         
-        const status = await axios.post('http://127.0.0.1:4000/login/add-expense', expObj, { headers: { "Authorization": token }}).then((response) => { returnItToUi(response.data)
-        console.log(response.data) })
+        const status = await axios.post('http://127.0.0.1:4000/login/add-expense', expObj, { headers: { "Authorization": token }})
+        .then((response) => { returnItToUi(response.data)}).catch(err=>console.log(err))
+        
+        
+    
+
+        document.getElementById("listoftop").innerHTML="";
+
+         leaderboard();
 
         document.getElementById("expenseamount").value = "";
         document.getElementById("expdescp").value = "";
         document.getElementById("category").value = "Select";
 
 
-    } catch (e) {
-        console.log(e);
-    }
+   
 };
 
 
@@ -41,7 +46,7 @@ async function saveExpense(event) {
 
 
 function returnItToUi(obj) {
-    // console.log(obj.amount)
+    // console.log(obj)
 
     try {
         // getting the id of ul tag to create ne li tags under it
@@ -70,16 +75,19 @@ function returnItToUi(obj) {
 
 
             try { //DELETES THE OBJ, WHERE ID IS GIVEN
-                var id = `${obj.id}`
+                var id = `${obj.amount}`
 
-                // console.log(id);
+                console.log(id);
 
                 const token = localStorage.getItem('token')
                 console.log(id)
                 console.log(token)
                 const user = await axios.delete(`http://127.0.0.1:4000/login/delete-expense/${obj.id}`, { headers: { "Authorization": token } })
-                    .then(alert("Deleted"), parentElement.removeChild(childElement))
-                    .catch(err => console.log(err));
+                    .then((response)=>{parentElement.removeChild(childElement); document.getElementById("puser").innerHTML += response.data.message + "<br>"} )
+                    .catch(err => document.getElementById("puser").innerHTML += err.message + "<br>");
+                    document.getElementById("listoftop").innerHTML="";
+
+                   await leaderboard();
 
             } catch (e) {
                 console.log(e)
@@ -114,7 +122,7 @@ window.addEventListener("DOMContentLoaded", async () => {
         const token = localStorage.getItem('token')
         const premiumcheck = localStorage.getItem('ispremium')
         // console.log(token)
-        console.log(premiumcheck)
+        // console.log(premiumcheck)
         if (premiumcheck != null) {
             const PremiumCheck = await axios.get('http://127.0.0.1:4000/login/check', { headers: { "Authorization": premiumcheck } })
                 .then(response => {
@@ -127,9 +135,11 @@ window.addEventListener("DOMContentLoaded", async () => {
 
 
 
-        const dbData = await axios.get('http://127.0.0.1:4000/login/get-expense', { headers: { "Authorization": token } }).then(response => { return (response.data) });
+        const dbData = await axios.get('http://127.0.0.1:4000/login/get-expense', { headers: { "Authorization": token } })
+        .then(response => { return (response.data) })
+        .catch(err=> console.log(err))
         // console.log(dbData[0]);
-        console.log(dbData)
+        // console.log(dbData)
         if (dbData.length == 0) {
             document.getElementById("puser").innerHTML += "No Transactions to show"
         }
@@ -199,15 +209,15 @@ document.getElementById("premium").onclick = async function (e) {
 
 
 async function leaderboard(event) {
-    document.getElementById("ldr").innerHTML = "<label style='font-weight: 800;'>Leader Board</label>";
+    const premiumcheck = localStorage.getItem('ispremium')
 
-
-    console.log("leaderboard getting clicked")
-    
+    // if(premiumcheck!=null){
+    //     document.getElementById("puser").innerHTML = ""
+        document.getElementById("ldr").innerHTML = "<label style='font-weight: 800;'>Leader Board</label>";
 
     const leaderArray = await axios.get('http://127.0.0.1:4000/premium/leaderboard').then(response => response.data);
-    console.log(leaderArray)
-
+    
+    
     for (let i = 0; i < leaderArray.length; i++) {
 
 
@@ -219,8 +229,12 @@ async function leaderboard(event) {
         chilEle.innerText = 'Name : ' + `${leaderArray[i].name}` +' - '+ ' Total Expenses : ' + `${leaderArray[i].totalexp}`;
 
         parEle.appendChild(chilEle);
+}
+    
+    // // } else {
+    //     document.getElementById("puser").innerHTML = "You are not a premium user"
 
-    }
+    // // }
 
    
 

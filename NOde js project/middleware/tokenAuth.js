@@ -9,12 +9,12 @@ exports.authenticate =  (req,res, next) =>{
 
     const user = (jwt.verify(token, 'secretkey'));
 
-    console.log(user," token wala user")
+    // console.log(user," token wala user")
 
     usersModel.findByPk(user.userId).then( user => {
         console.log(JSON.stringify(user))
         req.user =user;
-        console.log(req.user.totalexp, "is the user total expo")
+        // console.log(req.user.totalexp)
       
         next();  
     }).catch((err => console.log(err)))
@@ -25,10 +25,10 @@ exports.authenticate =  (req,res, next) =>{
 }
 
 exports.premiumcheck =  (req,res, next) =>{
-    try{
+    
      const token = req.header("Authorization");
      console.log(token);
-     console.log("entering authenticaation")
+     console.log("entering premiumcheck")
  
      const user = (jwt.verify(token, 'secretkey'));
  
@@ -39,13 +39,10 @@ exports.premiumcheck =  (req,res, next) =>{
          req.user =user;
          console.log(req.user.ispremium,"premium check")
        
-         
-     }).catch((err => console.log(err)))
+         res.status(200).json({message : "You are a Premium User"})
+     }) .catch(async(err)=> res.status(500).json({error:err, success: false}))
 
-     res.status(200).json({message : "You are a Premium User"})
-    } catch(err){
-     console.log(err);
-     res.status(401).json({success : false})
-    }
+   
+   
  }
 

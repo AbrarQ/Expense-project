@@ -26,7 +26,6 @@ async function loguser(event) {
                     // const para = document.getElementById("result");
                     // para.innerHTML = ' <p style = "color:green">Authentication Successful</p>'
 
-                 
                         window.location.href = "./expenseHome.html"
                         
             

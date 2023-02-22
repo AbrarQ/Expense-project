@@ -43,7 +43,7 @@ async function saveuser(event) {
     catch (e) {
         console.log(e)
     }
-    // Getting the value in string format from the user
+   
 
 
 };

@@ -11,7 +11,7 @@ function generateAuthToken(uid){
 }
 
 exports.purchasePremium = async (req, res, next)=>{
-    try{
+  
         console.log("Entering Purchase Section")
         var rzr = new Razorpay({
             key_id : 'rzp_test_jj0ngrCfqdNTOy',
@@ -25,13 +25,12 @@ exports.purchasePremium = async (req, res, next)=>{
        console.log(orderid.id)
        console.log(req.user.id)
           
-        await order.create({orderid : orderid.id, status : "pending",userloginId : req.user.id}).then(()=> {
+        await order.create({orderid : orderid.id, status : "pending",userloginId : req.user.id})
+        .then(()=> {
             res.status(201).json({orderid,key_id : rzr.key_id})
-
         })
-    } catch(err){
-      console.log(err)
-    }
+        .catch(async(err)=> res.status(500).json({err}))
+    
 } 
 
 
@@ -45,7 +44,7 @@ exports.postTransaction = async( req, res, next)=> {
         status : " Success" },
         {where : { orderid : req.body.order_id}}
 
-    )
+    ) .catch(async(err)=> res.status(500).json({err}))
 
     const uid =req.user.id;
     console.log("making him premium")
@@ -56,6 +55,7 @@ exports.postTransaction = async( req, res, next)=> {
     ).then(()=> {
 
     res.status(201).json({token : generateAuthToken(uid),message : "You are a premium user now"})})
+    .catch(async(err)=> res.status(500).json({err}))
 
     next();
 
@@ -68,7 +68,7 @@ exports.makeHimPremium = async( req, res, next)=> {
         ispremium : "1",
        }, {where : { orderid : req.body.order_id}}
 
-    )
+    ).catch(async(err)=> res.status(500).json({err}))
 
 
 

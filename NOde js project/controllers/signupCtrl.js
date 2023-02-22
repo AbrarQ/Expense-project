@@ -28,8 +28,8 @@ exports.saveUsers = async (req, res, next) => {
 
         }
 
-    } catch (e) {
-        console.log(e)
+    } catch (e){
+       res.status(500).json({err})
     }
 
 }

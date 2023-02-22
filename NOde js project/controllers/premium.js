@@ -8,14 +8,12 @@ const sequelizedb  = require('../util/dbConnect');
 const { json } = require('body-parser');
 
 exports.getLeaderBoard = async(req,res,next)=> {
-    try{
+   
        const leaderArray = await loginModel.findAll({
        
         order : [[sequelize.col('totalexp'), "DESC"]]
-       });
+       }) .catch(async(err)=> res.status(500).json({err}))
         console.log(leaderArray)
     res.status(200).json(leaderArray)
-    }catch(err){
-          res.status(500).json(err)
-    }
+    
 }
