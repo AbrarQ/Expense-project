@@ -216,7 +216,7 @@ async function leaderboard(event) {
 
         const chilEle = document.createElement("li");
 
-        chilEle.innerText = 'Name : ' + `${leaderArray[i].name}` +' - '+ ' Total Expenses : ' + `${leaderArray[i].total_spend}`;
+        chilEle.innerText = 'Name : ' + `${leaderArray[i].name}` +' - '+ ' Total Expenses : ' + `${leaderArray[i].totalexp}`;
 
         parEle.appendChild(chilEle);
 

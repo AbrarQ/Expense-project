@@ -14,6 +14,7 @@ exports.authenticate =  (req,res, next) =>{
     usersModel.findByPk(user.userId).then( user => {
         console.log(JSON.stringify(user))
         req.user =user;
+        console.log(req.user.totalexp, "is the user total expo")
       
         next();  
     }).catch((err => console.log(err)))
@@ -47,5 +48,4 @@ exports.premiumcheck =  (req,res, next) =>{
      res.status(401).json({success : false})
     }
  }
- 
 

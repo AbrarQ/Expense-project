@@ -39,7 +39,8 @@ const usersModel = sequelizedb.define('userlogins',{
     type : Sequelize.STRING,
     allowNull : true, 
     
-  }
+  },
+  totalexp : Sequelize.INTEGER
   
 })
 
