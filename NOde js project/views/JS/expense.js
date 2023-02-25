@@ -163,8 +163,10 @@ async function getExpense(page) {
     const PAGE = page;
     console.log(PAGE)
    document.getElementById("listofexpenses").innerHTML="";
+   const count = document.getElementById("NumberofRecords").value;
+   console.log(count)
     const token = localStorage.getItem('token')
-    const dbData = await axios.get(`http://127.0.0.1:4000/login/get-expense?page=${page}`, { headers: { "Authorization": token } })
+    const dbData = await axios.get(`http://127.0.0.1:4000/login/get-expense?page=${page}&count=${count}`, { headers: { "Authorization": token } })
         .then(response => { sendToUi(response.data.rows); showPagination(response.data);console.log(response.data)  })
         .catch(err => console.log(err))
 

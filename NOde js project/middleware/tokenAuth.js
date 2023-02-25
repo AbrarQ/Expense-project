@@ -26,9 +26,7 @@ exports.authenticate =  (req,res, next) =>{
 
 exports.premiumcheck =  (req,res, next) =>{
     
-
     try{
-
         
         const token = req.get("Authorization");
         console.log(token);

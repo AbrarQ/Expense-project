@@ -51,7 +51,9 @@ exports.addExpense = async (req, res, next) => {
 exports.getExpense = async (req, res, next) => {
    
     const PAGE = +req.query.page || 1
-    const ITEMS_PER_PAGE = 5;
+    
+    const ITEMS_PER_PAGE = +req.query.count;
+    console.log("items per ppage",ITEMS_PER_PAGE)
     console.log("this is my page num", PAGE);
     const USER = req.user.id
     console.log("this is my user id", USER);
@@ -64,7 +66,7 @@ exports.getExpense = async (req, res, next) => {
     const pageData = await expModel.findAll({
 
         offset :(PAGE - 1)*ITEMS_PER_PAGE,
-        limit : 5,
+        limit : ITEMS_PER_PAGE,
         where : { userloginId : USER}
     }).then((rows)=>{
         res.json({
