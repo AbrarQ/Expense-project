@@ -10,9 +10,6 @@ function generateUUID() {
 // console.log(generateUUID());
 
 
-
-
-
 exports.resetPass = async (req, res, next) => {
 
     const mail = req.body.emailid;

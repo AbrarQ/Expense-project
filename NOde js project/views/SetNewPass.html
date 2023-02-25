@@ -21,13 +21,16 @@
     <div class="passchange">
         <form onsubmit="submitPass(event)" method="POST">
             <label class="eid">Set New Password</label><br>
-            <input type="text" id="pass" name="pass" placeholder="Strong Password" required><br><br>
+            <input type="password" id="pass" name="pass" placeholder="Strong Password" required><br><br>
             
             <button class="form"  type="submit">Submit</button>
             <p id="result" style="color: green;"></p>
         </form><br>
-       
 
+        <form action="signin.html">
+            <button>Back to - Log in</button>
+        </form>
+       
 
         <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 

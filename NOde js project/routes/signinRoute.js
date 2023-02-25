@@ -4,7 +4,6 @@ const signinControl = require('../controllers/signinCtrl');
 
 router.get('/login/:id/:pass', signinControl.getUsers);
 
-
 module.exports = router;
 
 

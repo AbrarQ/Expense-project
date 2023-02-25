@@ -6,12 +6,14 @@ const check = require('../models/checks');
 exports.saveUsers = async (req, res, next) => {
     try {
 
+        //calls the function which takes in user name and tells us if there are
+        //any users with that user name 
         const usernameCheck = await check(req.body.userdata);
         if (usernameCheck == -1) {
             console.log(usernameCheck);
             console.log("we are not executing this user")
-            res.status(401).send();
-            // if {} esle{}
+            res.status(401).json({message : "Username Already Exists!!"});
+        
 
         } else if (usernameCheck == 0) {
             const pass = req.body.passwordData
@@ -22,14 +24,14 @@ exports.saveUsers = async (req, res, next) => {
                 email: req.body.emaildata,
                 phonenumber: req.body.pnumberdata,
                 password: hashedPass
-            })
-            res.status(200).json({message : "User Created Succesfully"});
+            }).then(
+            res.status(200).json({message : "User Created Succesfully"}));
 
 
         }
 
-    } catch (e){
-       res.status(500).json({err})
+    } catch (err){
+       console.log(err)
     }
 
 }

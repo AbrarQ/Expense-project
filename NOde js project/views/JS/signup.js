@@ -17,28 +17,20 @@ async function saveuser(event) {
        
         // sending a post request and passing object to the server
        await axios.post("http://127.0.0.1:4000/save-users", obj)
-            .then(res => {
-                if (res.status === 200) {
-                    console.log(res.data.message);
-                    const para = document.getElementById("result");
-                    para.innerHTML = '<p style = "color:green"> User Created Successfully</p>'
-                  
-                } 
-                
+            .then( (response) => {
+                // Display text if the user is created Succesfully
+                document.getElementById("result").innerHTML =  response.data.message;
+                document.getElementById("uname").value = ""; 
+                document.getElementById("pnumber").value = "";
+                document.getElementById("eid").value = "";
+                document.getElementById("pswrd").value = "";
             })
-            .catch( error => {
-                if (error.response.status === 401) {
-                    console.log(error);
-                    const para = document.getElementById("result");
-                    para.innerHTML = ' <p style = "color:orange">UserName Already in use</p>'
-                    
-                }})
+            .catch(  (error) => {
+                // Display error if the user is not created with the cause
+                document.getElementById("result").innerHTML=  error.message })
 
 
-        document.getElementById("uname").value = "";
-        document.getElementById("pnumber").value = "";
-        document.getElementById("eid").value = "";
-        document.getElementById("pswrd").value = "";
+       
     }
     catch (e) {
         console.log(e)

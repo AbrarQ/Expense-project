@@ -16,7 +16,7 @@ module.exports = async function (userName){
     
             return -1;
     
-    
+
         } else{
         console.log("no such user found ")
     
@@ -24,8 +24,8 @@ module.exports = async function (userName){
         }
         
 
-    } catch(e){
-        res.status(500).json({err})
+    } catch(err){
+        res.status(500).json({error : err})
     }
    
     

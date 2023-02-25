@@ -61,7 +61,6 @@ console.log("Entering step -1")
 
     const userid = await fetchUserID(mail)
 
-
     if (userid == null){
         res.status(404).json({message : "User Not Found"})
     }
@@ -70,7 +69,8 @@ console.log("Entering step -1")
     const fetcher = await passModel.findOne({where : { userid : userid}});
     const check = JSON.stringify(fetcher);
     const final = JSON.parse(check)
-if (final== null){
+    console.log(final,"Precheck")
+if (final== null || final.isactive===0){
    const uuidData = await newResetRequest(userid);
    req.middlewareUUID = uuidData;
    next();

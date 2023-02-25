@@ -5,7 +5,6 @@ const Sequelize = require ('sequelize');
 
 const sequelizedb  = require('../util/dbConnect');
 
-
 const forgotModel = sequelizedb.define('forgotpasses',{
   uuid : { 
     type : Sequelize.INTEGER, 

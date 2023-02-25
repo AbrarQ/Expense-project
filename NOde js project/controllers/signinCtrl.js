@@ -46,37 +46,36 @@ exports.getUsers = async (req, res, next) => {
 
 }
 
-
-exports.resetPass = async( req, res, next)=> {
-    console.log( req.body.emailid)
+// exports.resetPass = async( req, res, next)=> {
+//     const mail  = req.body.emailid;
     
-    const { GetEmailCampaign } = require('sib-api-v3-sdk');
-const Sib = require('sib-api-v3-sdk');
+//  const Sib = require('sib-api-v3-sdk');
+
+//  const client = Sib.ApiClient.instance;
+
+//  const apiKey = client.authentications['api-key'];
+// apiKey.apiKey = process.env.API_KEY;
+
+// // create a transactional email message
+// let sendSmtpEmail = new Sib.SendSmtpEmail();
+// sendSmtpEmail.to = [{ "email": mail}];
+// sendSmtpEmail.sender = { "email": "abrarquraishi96@gmail.com", "name": "Abrar" };
+// sendSmtpEmail.subject = "Reset-Password";
+// sendSmtpEmail.textContent = "Hey Click here to reset Your Password";
+// sendSmtpEmail.htmlContent = "<a href='https://www.google.com/'>Google.com</a>";
+
+// // send the emai
+// const apiInstance = new Sib.TransactionalEmailsApi();
+// apiInstance.sendTransacEmail(sendSmtpEmail)
+//   .then(
+//    res.status(200).json({message : "Email sent successfully."})
+//   )
+//   .catch((err)=> {
+//     res.status(500).json({error : err, message : false})
+// });
 
 
-require('dotenv').config();
 
-const client = Sib.ApiClient.instance
-
-const apikey = client.authentications['api-key'];
-apikey.apikey = process.env.API_KEY 
-
-const tranEmailApi = new Sib.TransactionalEmailsApi();
-
-const sender = {
-    email : 'abrarquraishi99@gmail.com'
-}
-
-tranEmailApi.sendTransacEmail({
-    sender,
-    to : req.body.emailid,
-    subject : "Password Reset Link for Expenses App",
-    textContent : "Please click below to reset your password"
-})
-.then(response => console.log(response))
-.catch((err)=> { console.log(err)})
-
-  
-}
+// }
 
 

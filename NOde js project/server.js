@@ -9,6 +9,7 @@ const UserE = require('./models/dbDefine');
 const User = require('./models/dbDefine');
 const Orders = require('./models/order');
 const forgotPass = require('./models/forgotpass');
+const downloadedUrls = require('./models/Linksmodel');
 const path = require('path')
 const uuid = require('uuid')
 const cors = require('cors');
@@ -23,6 +24,7 @@ const purchaseRoutes = require('./routes/purchase');
 const premiumRoutes = require('./routes/premium');
 const resetRoutes = require('./routes/forgotpassR');
 const savepassRoutes = require('./routes/savepass');
+const donwloadROutes = require('./routes/downloadR');
 
 app.use(signuproutes);
 app.use(signinroutes);
@@ -31,6 +33,8 @@ app.use(purchaseRoutes);
 app.use(premiumRoutes);
 app.use(resetRoutes);
 app.use(savepassRoutes);
+app.use(donwloadROutes);
+app.use(downloadedUrls);
 require("dotenv").config();
 
 // (UserE).hasMany(Expense);
@@ -38,7 +42,6 @@ require("dotenv").config();
 
 // (User).hasMany(forgotPass);
 // (forgotPass).belongsTo(User)
-
 
 
 

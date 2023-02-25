@@ -3,35 +3,38 @@
 
 async function submitPass(event) {
    event.preventDefault();
-//    const abc = require('axios');
+   //    const abc = require('axios');
 
-// const axios = abc.create({
-//    baseURL: 'http://127.0.0.1:4000'
-//  });
-   
+   // const axios = abc.create({
+   //    baseURL: 'http://127.0.0.1:4000'
+   //  });
 
- try{
 
-    const newpass = document.getElementById("pass").value;
-    console.log(newpass)
- 
-    
+   try {
 
-    const path = window.location.pathname;
-    const fileName = path.split('/').pop();
-    console.log(fileName)
-
-    const passObj = {  newpass, fileName }
-    console.log(passObj)
+      const newpass = document.getElementById("pass").value;
+      console.log(newpass)
 
 
 
-    await axios.post(`http://127.0.0.1:4000/password/resetpassword/${fileName}`, passObj).then(response =>document.getElementById("result").innerHTML = response.data.message ).catch(err => console.log(err))
+      const path = window.location.pathname;
+      const fileName = path.split('/').pop();
+      console.log(fileName)
+
+      const passObj = { newpass, fileName }
+      console.log(passObj)
 
 
- } catch(err){console.log(err)}
+
+      await axios.post(`http://127.0.0.1:4000/password/resetpassword/${fileName}`, passObj)
+         .then(response => {
+            document.getElementById("result").innerHTML = response.data.message;
+            document.getElementById("pass").value;
+         })
+         .catch(err => document.getElementById("result").innerHTML = err.message)
 
 
+   } catch (err) { console.log(err) }
 
 
 }

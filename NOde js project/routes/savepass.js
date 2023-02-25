@@ -5,7 +5,6 @@ const uuidCheck = require('../middleware/uuidchecker');
 
 
 
-
 router.post('/Setpass.js', savepass.sendjs);
 
 router.post('/password/resetpassword/:uuid',savepass.storepass);

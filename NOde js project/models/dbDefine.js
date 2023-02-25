@@ -5,7 +5,6 @@ const sequelize = require('../util/dbConnect');
 
 const sequelizedb  = require('../util/dbConnect');
 
-
 const usersModel = sequelizedb.define('userlogins',{
   id : { 
     type : Sequelize.INTEGER, 
