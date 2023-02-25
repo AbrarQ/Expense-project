@@ -36,14 +36,14 @@ exports.premiumcheck =  (req,res, next) =>{
     
         const user = (jwt.verify(token, 'secretkey'));
     
-        console.log(user," token wala user")
+        console.log(user)
    
    
         if (user.ispremium==="True"){
-         
+            console.log("Exiting PremiumCheck")
         res.status(200).json({message : "You are a Premium User"})
         req.user =user.userID;
-        
+       
         next();
         } else {
            res.status(500).json({success: false});

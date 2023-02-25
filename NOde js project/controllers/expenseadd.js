@@ -49,12 +49,42 @@ exports.addExpense = async (req, res, next) => {
 
 // router.get('/get-expense',
 exports.getExpense = async (req, res, next) => {
+   
+    const PAGE = +req.query.page || 1
+    const ITEMS_PER_PAGE = 5;
+    console.log("this is my page num", PAGE);
+    const USER = req.user.id
+    console.log("this is my user id", USER);
 
-    await expModel.findAll({ where: { userloginId: req.user.id } })
-        .then(expenses => {
-            res.status(200).json(expenses)
+    const count = await expModel.count({where : {userloginId : USER}})
+
+    console.log("Number of records", count);
+
+
+    const pageData = await expModel.findAll({
+
+        offset :(PAGE - 1)*ITEMS_PER_PAGE,
+        limit : 5,
+        where : { userloginId : USER}
+    }).then((rows)=>{
+        res.json({
+            rows : rows,
+            currentpage : PAGE,
+            hasnextpage : ITEMS_PER_PAGE * PAGE < count,
+            nextpage : PAGE + 1,
+            haspreviouspage : PAGE > 1,
+            previouspage : PAGE -1,
+            lastpage : Math.ceil(count/ITEMS_PER_PAGE)
+
         })
-        .catch(async (err) => res.status(500).json({ err }))
+        return rows.data
+    }).catch(err => console.log(err))
+    // console.log(JSON.stringify(pageData))
+
+
+
+
+   
 
 
 }

@@ -88,7 +88,7 @@ try{
     ).catch(async(err)=> res.status(500).json({success : false}))
     res.status(200).json({ message : "Purchase done"});
 } catch(err){
-    console.log(error)
+    console.log(err)
 }
    
 

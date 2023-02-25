@@ -14,6 +14,7 @@ document.getElementById("listoftop").innerHTML=""
     
     for (let i = 0; i < leaderArray.length; i++) {
         const parEle = document.getElementById("listoftop");
+        
 
         const chilEle = document.createElement("li");
 
