@@ -16,12 +16,12 @@ exports.addExpense = async (req, res, next) => {
         amount: req.body.amount,
         description: req.body.description,
         category: req.body.category,
-        userloginId: req.user.id
+        userloginId: req.user.userId
     }, { transaction: t }).then((data) => {
         const totalExp = Number(req.user.totalexp) + Number(req.body.amount)
 
         loginModel.update({ totalexp: totalExp }, {
-            where: { id: req.user.id }, transaction: t
+            where: { id: req.user.userId }, transaction: t
         })
             .then(async () => {
                 await t.commit();
@@ -55,7 +55,7 @@ exports.getExpense = async (req, res, next) => {
     const ITEMS_PER_PAGE = +req.query.count;
     console.log("items per ppage",ITEMS_PER_PAGE)
     console.log("this is my page num", PAGE);
-    const USER = req.user.id
+    const USER = req.user.userId
     console.log("this is my user id", USER);
 
     const count = await expModel.count({where : {userloginId : USER}})

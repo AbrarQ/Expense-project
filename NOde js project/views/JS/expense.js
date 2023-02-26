@@ -1,5 +1,6 @@
 
 
+
 async function saveExpense(event) {
     event.preventDefault();
 
@@ -125,31 +126,22 @@ window.addEventListener("DOMContentLoaded", async () => {
 
 
     try {
-
+        
+       
         const token = localStorage.getItem('token')
         console.log(token)
 
-        if (token != null) {
-           await axios.get('http://127.0.0.1:4000/login/check', { headers: { "Authorization": token } })
-                .then(response => {
-                    if (response.status === 200) {
-                        document.getElementById("premium").remove();
-                        document.getElementById("puser").innerHTML += response.data.message + "<br>"
-                    }
-                })
+
+        if (token!=null){
+    
+                    document.getElementById("premium").remove();
+                    document.getElementById("puser").innerHTML = "You are a premium user"
+               
         }
 
         const page = 1;
-
-
-        // const dbData = await axios.get(`http://127.0.0.1:4000/login/get-expense?page=${page}`, { headers: { "Authorization": token } })
-        //     .then(response => { 
-        //         showPagination(response.data);
-        //          sendToUi(response.data.rows);
-               
-        //         })
-        //     .catch(err => console.log(err))
         getExpense(page);
+        
 
     }
     catch (e) {
@@ -160,13 +152,14 @@ window.addEventListener("DOMContentLoaded", async () => {
 
 async function getExpense(page) {
 
+  
+    const COUNT =localStorage.getItem("count")
     const PAGE = page;
-    console.log(PAGE)
+  
    document.getElementById("listofexpenses").innerHTML="";
-   const count = document.getElementById("NumberofRecords").value;
-   console.log(count)
+ 
     const token = localStorage.getItem('token')
-    const dbData = await axios.get(`http://127.0.0.1:4000/login/get-expense?page=${page}&count=${count}`, { headers: { "Authorization": token } })
+    const dbData = await axios.get(`http://127.0.0.1:4000/login/get-expense?page=${page}&count=${COUNT}`, { headers: { "Authorization": token } })
         .then(response => { sendToUi(response.data.rows); showPagination(response.data);console.log(response.data)  })
         .catch(err => console.log(err))
 
@@ -229,4 +222,9 @@ async function showPagination({
     }
 
 
+}
+
+function getter(){
+    localStorage.setItem("count",document.getElementById("NumberofRecords").value)
+    location.reload();
 }

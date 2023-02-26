@@ -7,16 +7,24 @@ exports.authenticate =  (req,res, next) =>{
     console.log(token);
     console.log("entering authenticaation")
 
-    const user = (jwt.verify(token, 'secretkey'));
+    const userToken = (jwt.verify(token, process.env.JWT_SECRET_KEY ));
+    console.log(userToken)
 
     // console.log(user," token wala user")
-    usersModel.findByPk(user.userId).then( data => {
+    usersModel.findByPk(userToken.userId).then( data => {
         console.log(JSON.stringify(data))
-        req.user =data;
-        console.log(req.user.id)
+        if(data!=null){
+            
+            req.user= userToken
+            console.log(req.user,"is data wala")
+
+          
+            next();
+        }
+    
         // console.log(req.user.totalexp)
       
-        next();  
+        
     }).catch((err => console.log(err)))
    } catch(err){
     console.log(err);
@@ -24,44 +32,47 @@ exports.authenticate =  (req,res, next) =>{
    }
 }
 
-exports.premiumcheck =  (req,res, next) =>{
+// exports.premiumcheck =  (req,res, next) =>{
     
-    try{
+//     try{
         
-        const token = req.get("Authorization");
-        console.log(token);
-        console.log("entering premiumcheck")
+//         const token = req.get("Authorization");
+//         console.log(token);
+//         console.log("entering premiumcheck")
     
-        const user = (jwt.verify(token, 'secretkey'));
+//         const user = (jwt.verify(token, 'secretkey'));
     
-        console.log(user)
+//         console.log(user)
    
    
-        if (user.ispremium==="True"){
-            console.log("Exiting PremiumCheck")
-        res.status(200).json({message : "You are a Premium User"})
-        req.user =user.userID;
+//         if (user.ispremium==="True"){
+//             console.log("Exiting PremiumCheck")
+//         res.status(200).json({message : "You are a Premium User"})
+//         req.user =user.userID;
        
-        next();
-        } else {
-           res.status(500).json({success: false});
-        }
+//         next();
+//         } else {
+//             res.status(200).json({message : "You are a Not Premium User"})
+//             req.user =user.userID;
+       
+//         next();
+//         }
 
-    }catch(e){
-        console.log(e)
-    }
+//     }catch(e){
+//         console.log(e)
+//     }
     
 
  
-    //  usersModel.findByPk(user.userId).then( user => {
-    //      console.log(JSON.stringify(user))
-    //      
-    //      console.log(req.user.ispremium,"premium check")
+//     //  usersModel.findByPk(user.userId).then( user => {
+//     //      console.log(JSON.stringify(user))
+//     //      
+//     //      console.log(req.user.ispremium,"premium check")
        
-    //      
-    //  }) .catch(async(err)=> res.status(500).json({error:err, success: false}))
+//     //      
+//     //  }) .catch(async(err)=> res.status(500).json({error:err, success: false}))
 
    
    
- }
+//  }
 

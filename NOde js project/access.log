@@ -1,0 +1,8 @@
+::ffff:127.0.0.1 - - [26/Feb/2023:12:46:02 +0000] "OPTIONS /login/add-expense HTTP/1.1" 200 4 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36"
+::ffff:127.0.0.1 - - [26/Feb/2023:12:46:02 +0000] "POST /login/add-expense HTTP/1.1" 200 156 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36"
+::ffff:127.0.0.1 - - [26/Feb/2023:12:46:02 +0000] "OPTIONS /premium/leaderboard HTTP/1.1" 200 8 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36"
+::ffff:127.0.0.1 - - [26/Feb/2023:12:46:02 +0000] "GET /premium/leaderboard HTTP/1.1" 200 3388 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36"
+::ffff:127.0.0.1 - - [26/Feb/2023:12:48:28 +0000] "OPTIONS /login/get-expense?page=1&count=15 HTTP/1.1" 200 8 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36"
+::ffff:127.0.0.1 - - [26/Feb/2023:12:48:28 +0000] "GET /login/get-expense?page=1&count=15 HTTP/1.1" 304 - "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36"
+::ffff:127.0.0.1 - - [26/Feb/2023:12:49:46 +0000] "OPTIONS /login/get-expense?page=1&count=15 HTTP/1.1" 200 8
+::ffff:127.0.0.1 - - [26/Feb/2023:12:49:46 +0000] "GET /login/get-expense?page=1&count=15 HTTP/1.1" 304 -

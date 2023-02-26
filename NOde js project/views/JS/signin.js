@@ -17,8 +17,11 @@ async function loguser(event) {
 
         const allData = await axios.get(`http://127.0.0.1:4000/login/${obj.userName}/${obj.passwrd}`)
             .then(res => {
+
+
                 if (res.status === 200) {
                     console.log(res.data.token);
+                  
                     alert(res.data.message)
 
                     localStorage.setItem('token', res.data.token)
@@ -27,14 +30,9 @@ async function loguser(event) {
                     // para.innerHTML = ' <p style = "color:green">Authentication Successful</p>'
 
                         window.location.href = "./expenseHome.html"
-                        
-            
-
-                    setTimeout(()=>{
-                        redirectFunc();
-                    },250)
-
                 }
+                
+                return res.data
 
             }).catch(error => {
                 if (error.response.status === 401) {
@@ -49,6 +47,10 @@ async function loguser(event) {
 
                 }
             })
+
+
+
+            
 
     } catch (e) {
 

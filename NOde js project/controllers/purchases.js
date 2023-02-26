@@ -7,7 +7,7 @@ const jwt = require('jsonwebtoken')
 
 
 function generateAuthToken(uid){
-    return jwt.sign({userId : uid, ispremium :"1"}, 'secretkey')
+    return jwt.sign({userId : uid, ispremium :"1"}, process.env.JWT_SECRET_KEY)
 }
 
 exports.purchasePremium = async (req, res, next)=>{
@@ -74,7 +74,7 @@ if (status==="Success"){
 }
 
 function generateAuthToken(id,key){
-    return jwt.sign({userId : id, ispremium:key}, 'secretkey')
+    return jwt.sign({userId : id, ispremium:key}, process.env.JWT_SECRET_KEY)
 }
 
 exports.makeHimPremium = async( req, res, next)=> {
@@ -86,7 +86,7 @@ try{
        }, {where : { orderid : req.body.order_id}}
 
     ).catch(async(err)=> res.status(500).json({success : false}))
-    res.status(200).json({ message : "Purchase done"});
+    
 } catch(err){
     console.log(err)
 }

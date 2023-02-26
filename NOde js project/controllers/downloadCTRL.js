@@ -16,7 +16,9 @@ require("aws-sdk/lib/maintenance_mode_message").suppress = true;
 exports.downloadExpense = async (req, res, next) => {
 
    try{
-    const userID = req.user.id;
+      if (req.user.ispremium==="True"){
+         
+    const userID = req.user.userId;
     const stringifiedExp = await helperFunction.getExpense(userID).then()
 
 
@@ -28,6 +30,9 @@ exports.downloadExpense = async (req, res, next) => {
     await  S3helper.urlExport(fileurl, userID)
 
      res.status(200).json({ fileurl, success: true })
+      } else{
+         res.status(402).json("You are not a premium user")
+      }
    } catch(err){
     console.log(err)
     res.status(500).json({fileurl:'', success : false, err : err})
@@ -39,13 +44,17 @@ exports.downloadExpense = async (req, res, next) => {
 exports.downloadList  = async (req, res, next)=>{
 
   try{
-    const list = await S3helper.urlsFetch(req.user.id);
+   if (req.user.ispremium==="True"){
+    const list = await S3helper.urlsFetch(req.user.userId);
 res.status(200).json({list})
+} else{
+   res.status(402).json("You are not a premium user")
+}
 
    }catch(err){
     console.log(err)
    }
-
+   
 }
 
 

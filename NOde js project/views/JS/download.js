@@ -5,7 +5,8 @@ async function download(event) {
     const token = localStorage.getItem('token')
     console.log("consolelog wala",token)
     const expense = await axios.get('http://127.0.0.1:4000/premium/download',{ headers: { "Authorization": token } })
-    .then(response => {
+    .then(response => { 
+      localStorage.setItem("ispremium", response.data.token)
       if (response.status === 200){
          var a = document.createElement("a");
          a.href = response.data.fileurl;
@@ -34,7 +35,10 @@ async function oldfiles(event) {
    
     console.log("consolelog wala",token)
     const expense = await axios.get('http://127.0.0.1:4000/premium/downloadlist',{ headers: { "Authorization": token } })
-    .then(response => response.data.list)
+    .then(response => { 
+      localStorage.setItem("ispremium", response.data.token);
+      return response.data.list
+   })
     console.log(expense)
    
     document.getElementById("url").innerHTML = "<label style='font-weight: 800;'>Previous Downloads</label>";
