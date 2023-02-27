@@ -1,5 +1,5 @@
 const aws = require('aws-sdk')
-require("aws-sdk/lib/maintenance_mode_message").suppress = true;
+ require("aws-sdk/lib/maintenance_mode_message").suppress = true;
 const linkmodel  = require('../models/Linksmodel');
 
 
@@ -16,7 +16,7 @@ async function uploadToS3(data, filename) {
           secretAccessKey : IAM_USER_SECRET,
           // Bucket : BUCKET_NAME
       })
-  var params = {
+  var params =  new {
               Bucket : BUCKET_NAME,
               Key : filename,
               Body : data,
@@ -36,6 +36,7 @@ async function uploadToS3(data, filename) {
           })
     } catch(err){
       console.log(err)
+      console.log("upload too s3")
       res.status(500).json({ success : false, err : err})
     }
           
@@ -54,10 +55,11 @@ async function urlExport(url, userid){
         userid : userid,
         url : url
    })
-   console.log("Db Updation done")
+//    console.log("Db Updation done")
    
    } catch(e){
     console.log(e)
+    console.log("url exp")
    }
 
    

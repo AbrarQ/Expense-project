@@ -20,6 +20,7 @@ async function paginate10(offset, limit){
     
     } catch(e){
      console.log(e)
+     console.log("pagin")
     }
  
     

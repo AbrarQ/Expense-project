@@ -17,8 +17,9 @@ const axios = require('axios');
 const helmet = require('helmet')
 const compression = require('compression')
 const fs = require('fs')
+const https =require('https')
 
-
+require("dotenv").config();
 
 const signuproutes = require('./routes/signupRoute');
 const signinroutes = require('./routes/signinRoute');
@@ -28,9 +29,9 @@ const premiumRoutes = require('./routes/premium');
 const resetRoutes = require('./routes/forgotpassR');
 const savepassRoutes = require('./routes/savepass');
 const donwloadROutes = require('./routes/downloadR');
-const morgan = require('morgan')
+const morgan = require('morgan');
 const LogStream = fs.createWriteStream(path.join(__dirname,'access.log'),{flags : 'a'})
-app.use(morgan('common',{ stream : LogStream }) )
+app.use(morgan('combined',{ stream : LogStream }) )
 app.use(signuproutes);
 app.use(signinroutes);
 app.use(exproutes);
@@ -45,8 +46,15 @@ app.use(helmet())
 // app.use(compression())
 
 
-require("dotenv").config();
 
+const privateKey = fs.readFileSync('server.key')
+const certificate = fs.readFileSync('-server.cert')
+
+
+app.use((req, res)=>{
+    console.log("url", req.url );
+    res.sendFile(path.join(__dirname,`public/signin.html`))
+})
 
 // (UserE).hasMany(Expense);
 // Expense.belongsTo(UserE)
@@ -56,14 +64,17 @@ require("dotenv").config();
 
 
 
-//   sequelize.sync().then(result => 
-//     {
-//         console.log(result)
-//     }).catch(err => {
-//         console.log(err)
-//     })
+   sequelize.sync().then(result => 
+    {
+        console.log(result)
+    }).catch(err => {
+        console.log(err)
+    })
 
 
 
-app.listen(process.env.PORT || 4000);
+
+
+// https.createServer({key :privateKey , cert :certificate},app)
+app.listen(4000);
  

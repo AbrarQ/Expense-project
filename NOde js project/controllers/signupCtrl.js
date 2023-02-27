@@ -10,8 +10,8 @@ exports.saveUsers = async (req, res, next) => {
         //any users with that user name 
         const usernameCheck = await check(req.body.userdata);
         if (usernameCheck == -1) {
-            console.log(usernameCheck);
-            console.log("we are not executing this user")
+            // console.log(usernameCheck);
+            // console.log("we are not executing this user")
             res.status(401).json({message : "Username Already Exists!!"});
         
 
@@ -31,10 +31,11 @@ exports.saveUsers = async (req, res, next) => {
         }
 
     } catch (err){
+        console.log("err at signupCTRL")
        console.log(err)
     }
 
-}
+} 
 
 
 

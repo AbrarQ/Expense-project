@@ -5,7 +5,7 @@ const helperFunction = require('../services/functions')
 const path = require('path')
 const passModel = require('../models/forgotpass')
 const sequelize = require('../util/dbConnect');
-const { QueryTypes, where } = require('sequelize');
+
 
 const bcrypt = require('bcrypt');
 
@@ -18,11 +18,11 @@ exports.sendjs = async (req, res) => {
 
 
 exports.storepass = async (req, res, next) => {
-
+try{
   const t = await sequelize.transaction();
 
   const userID = await helperFunction.userID(req.body.fileName)
-  console.log(userID)
+  // console.log(userID)
   if(userID.isactive ===0){
     console.log("cant use me")
     res.status(301).json({error : "Url Expired!!!", success: false});
@@ -36,6 +36,7 @@ exports.storepass = async (req, res, next) => {
 
 
   const passUpdate = await usersModel.update({
+    
     password: hashedPass
   }, { where: { id: userID.userid }, transaction: t })
     .then(async (response) => {
@@ -50,15 +51,17 @@ exports.storepass = async (req, res, next) => {
         })
         .catch(async (err) => {
           await t.rollback();
-          res.status(500).json({ error: err })
+          res.status(500).json({ error: err, message: false})
         })
     })
     .catch(async (err) => {
       await t.rollback();
-      res.status(500).json({ error: err })
+      res.status(500).json({ error: err, message: false })
     })
 
   }
+}catch(err){console.log(err); console.log("error at store pass")}
+ 
 
 
 

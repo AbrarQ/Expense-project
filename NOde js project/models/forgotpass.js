@@ -5,7 +5,7 @@ const Sequelize = require ('sequelize');
 
 const sequelizedb  = require('../util/dbConnect');
 
-const forgotModel = sequelizedb.define('forgotpasses',{
+const forgotModel =  sequelizedb.define('forgotpasses',{
   uuid : { 
     type : Sequelize.INTEGER, 
     autoIncrement : true,
@@ -28,4 +28,4 @@ const forgotModel = sequelizedb.define('forgotpasses',{
 })
 
 
-module.exports = forgotModel;
+module.exports =  forgotModel;

@@ -2,9 +2,10 @@
 
 const Sequelize = require ('sequelize');
 
+
 const sequelizedb  = require('../util/dbConnect');
 
-const expmodel = sequelizedb.define('expenses',{
+const expmodel =  sequelizedb.define('expenses',{
   id : { 
     type : Sequelize.INTEGER, 
     autoIncrement : true,

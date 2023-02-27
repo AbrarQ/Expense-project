@@ -7,7 +7,7 @@ const expModel = require('../models/expenseDefine')
 
 
 const userID = async function fetchUserID(uuid) {
-    console.log("Fetching user Id, step-2")
+    // console.log("Fetching user Id, step-2")
     const UUID = `${uuid}`;
 
     const allData = await passModel.findOne({ where: { uuid: UUID } })
@@ -17,7 +17,7 @@ const userID = async function fetchUserID(uuid) {
     // if(final == null){
     //     return final
     // } else {
-
+        console.log("fetch user ser fun")
     return final;
     // }
 
@@ -34,6 +34,7 @@ const getExpense = async function(userid){
         return JSON.stringify(exp);
     } catch (e){
         console.log(e)
+        console.log("get exp.1")
     }
    
 
@@ -43,7 +44,7 @@ exports.getExpense = getExpense;
 
 
 const getLink = async function fetchUserID(uuid) {
-    console.log("Fetching user Id, step-2")
+    // console.log("Fetching user Id, step-2")
     const UUID = `${uuid}`;
 
     const allData = await passModel.findOne({ where: { uuid: UUID } })
@@ -53,7 +54,7 @@ const getLink = async function fetchUserID(uuid) {
     // if(final == null){
     //     return final
     // } else {
-
+        console.log("uuid")
     return final;
     // }
 

@@ -16,39 +16,46 @@ function generateAuthToken(id,key){
 
 exports.getUsers = async (req, res, next) => {
 
-    const user = req.params.id;
-    console.log(user)
 
+    try {
 
-        const allData = await usersModel.findAll({ where: { name: user } }).then(response => response)
-         .catch(async(err)=> res.status(500).json({err}))
-        const check = JSON.stringify(allData);
-        const final = JSON.parse(check)
-        console.log(final[0].ispremium)
-
-        if (final.length==0){
-            res.status(404).send();
-        
-        } else{
-        const hashPass = final[0].password
-        const pass = req.params.pass;
-        const comparePass = await  bcrypt.compare(pass,hashPass);
-
-        console.log(comparePass); 
-
-        if (comparePass == false) {
-
-           res.status(401).send()
-        } else if (comparePass == true) {
-
-            if (final[0].ispremium==="1"){
-                console.log("user is preium")
-
-                res.status(200).json({token : generateAuthToken(final[0].id, "True"),message : "Login done as Premium User"})
-        } else {
-            res.status(201).json({token : generateAuthToken(final[0].id, "False"),message : "Login done"})
-        }
-            }}
+        const user = req.params.id;
+        // console.log(user)
+    
+    
+            const allData = await usersModel.findAll({ where: { name: user } }).then(response => response)
+             .catch(async(err)=> res.status(500).json({err}))
+            const check = JSON.stringify(allData);
+            const final = JSON.parse(check)
+            console.log(final[0].ispremium)
+    
+            if (final.length==0){
+                res.status(404).send();
+            
+            } else{
+            const hashPass = final[0].password
+            const pass = req.params.pass;
+            const comparePass = await  bcrypt.compare(pass,hashPass);
+    
+            // console.log(comparePass); 
+    
+            if (comparePass == false) {
+    
+               res.status(401).send()
+            } else if (comparePass == true) {
+    
+                if (final[0].ispremium==="1"){
+                    console.log("user is preium")
+    
+                    res.status(200).json({token : generateAuthToken(final[0].id, "True"),message : "Login done as Premium User"})
+            } else {
+                res.status(201).json({token : generateAuthToken(final[0].id, "False"),message : "Login done"})
+            }
+                }}
+    } catch(err){
+console.log(err);
+console.log("error at sigin ctrl")
+    }
     }
     
 

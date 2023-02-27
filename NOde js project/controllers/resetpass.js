@@ -4,24 +4,24 @@ const usersModel = require('../models/dbDefine')
 const path = require('path')
 
 function generateUUID() {
-    return uuid.v1()
+    return new uuid.v1()
 }
 
 // console.log(generateUUID());
 
 
 exports.resetPass = async (req, res, next) => {
-
-    const mail = req.body.emailid;
+    try{
+        const mail = req.body.emailid;
     const uuidx = req.middlewareUUID;
-    console.log(uuidx, "is the last step")
+    // console.log(uuidx, "is the last step")
    
 
     const Sib = require('sib-api-v3-sdk');
 
-    const client = Sib.ApiClient.instance;
+    const client = new Sib.ApiClient.instance;
 
-    const apiKey = client.authentications['api-key'];
+    const apiKey = new client.authentications['api-key'];
     apiKey.apiKey = process.env.API_KEY;
 
     // create a transactional email message
@@ -42,6 +42,8 @@ exports.resetPass = async (req, res, next) => {
         .catch((err) => {
             res.status(500).json({ error: err, message: false })
         });
+    }catch(err){console.log(err); console.log("error at store pass")}
+    
 
 
 
