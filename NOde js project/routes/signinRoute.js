@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const signinControl = require('../controllers/signinCtrl');
+const signinControl = require('../controllers/signinController');
 
-router.get('/login/:id/:pass', signinControl.getUsers);
+router.get('/:id/:pass', signinControl.getUsers);
 
 module.exports = router;
 

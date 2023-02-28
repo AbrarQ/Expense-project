@@ -1,6 +1,6 @@
-const usersModel = require('../models/dbDefine');
-const passModel = require('../models/forgotpass')
-const expModel = require('../models/expenseDefine')
+const usersModel = require('../models/userLoginsModel');
+const passModel = require('../models/resetPassLinkStatusModel')
+const expModel = require('../models/expensesModel')
 
 
 

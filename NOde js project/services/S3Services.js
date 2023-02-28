@@ -1,6 +1,6 @@
 const aws = require('aws-sdk')
  require("aws-sdk/lib/maintenance_mode_message").suppress = true;
-const linkmodel  = require('../models/Linksmodel');
+const linkmodel  = require('../models/downloadurlsModel');
 
 
 async function uploadToS3(data, filename) {
@@ -16,7 +16,7 @@ async function uploadToS3(data, filename) {
           secretAccessKey : IAM_USER_SECRET,
           // Bucket : BUCKET_NAME
       })
-  var params =  new {
+  var params =  {
               Bucket : BUCKET_NAME,
               Key : filename,
               Body : data,
@@ -37,7 +37,7 @@ async function uploadToS3(data, filename) {
     } catch(err){
       console.log(err)
       console.log("upload too s3")
-      res.status(500).json({ success : false, err : err})
+      
     }
           
       } 
