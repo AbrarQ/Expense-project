@@ -13,7 +13,7 @@ const forgotModel =  sequelizedb.define('forgotpasses',{
     primaryKey : true,
   },
 
-  userid : { 
+  userloginId : { 
     type : Sequelize.INTEGER, 
     allowNull : false,
  

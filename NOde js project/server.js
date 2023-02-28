@@ -14,11 +14,14 @@ const helmet = require('helmet')
 const compression = require('compression')
 const fs = require('fs')
 const https =require('https')
+const axios = require('axios')
+app.use(express.static('public'))
 
 require("dotenv").config();
 app.use(cors())
-app.use(helmet())
+// app.use(helmet())
 app.use(compression())
+
 
 const signuproutes = require('./routes/signupRoute');
 const signinroutes = require('./routes/signinRoute');
@@ -36,9 +39,14 @@ app.use('/expense',expenseroutes);
 app.use('/purchase',purchaseRoutes);
 app.use('/premium',premiumUserRoutes);
 app.use('/password',passwordRoutes);
-app.use('/',(req, res)=>{
+
+  
+  
+app.use((req, res)=>{
     try{  console.log("url", req.url );
-    res.sendFile(path.join(__dirname,`./public/signIN/signin.html`));
+    res.sendFile(path.join(__dirname,`public/${req.url}`));
+  
+   
 }catch(e){ console.log("ERr is from here")}
   
 })
@@ -56,12 +64,12 @@ forgotPass.belongsTo(User)
 
 
 
-//    sequelize.sync().then(result => 
-//     {
-//         console.log(result)
-//     }).catch(err => {
-//         console.log(err)
-//     })
+   sequelize.sync().then(result => 
+    {
+        console.log(result)
+    }).catch(err => {
+        console.log(err)
+    })
 
 
 // 3.215.181.196

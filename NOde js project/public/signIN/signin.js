@@ -14,10 +14,9 @@ async function loguser(event) {
         console.log(obj);
 
         // sending a post request and passing object to the server
-
-        const allData = await axios.get(`http://localhost:4000/signin/${obj.userName}/${obj.passwrd}`)
+await axios.post(`http://3.215.181.196:4000/signin/user`,obj)
             .then(res => {
-                console.log(res.data);
+                console.log(res);
 
                 if (res.status === 200) {
                     console.log(res.data);
@@ -28,6 +27,13 @@ async function loguser(event) {
                     
             
                         window.location.href = "../homePage/Homepage.html"
+                } else {
+                    if (res.status === 401) {
+                        console.log(res.data);
+                      
+                        alert(res.data.message)
+    
+                    }
                 }
                 
                 

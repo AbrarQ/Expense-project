@@ -16,7 +16,7 @@ async function saveuser(event) {
         console.log(obj);
        
         // sending a post request and passing object to the server
-       await axios.post("http://localhost:4000/signup/save-users", obj)
+       await axios.post("http://3.215.181.196:4000/signup/save-users", obj)
             .then( (response) => {
                 // Display text if the user is created Succesfully
                 console.log(response.data.message)

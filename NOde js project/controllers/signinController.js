@@ -22,8 +22,10 @@ exports.getUsers = async (req, res, next) => {
 
     try {
 
-        const user = req.params.id;
+        const user = req.body.userName;
         console.log(user)
+        
+        
     
     
             const allData = await usersModel.findAll({ where: { name: user } }).then(response => response)
@@ -37,14 +39,14 @@ exports.getUsers = async (req, res, next) => {
             
             } else{
             const hashPass = final[0].password
-            const pass = req.params.pass;
+            const pass = req.body.passwrd;
             const comparePass = await  bcrypt.compare(pass,hashPass);
     
             console.log(comparePass); 
     
-            if (comparePass === "false") {
-    
-               res.status(401).send()
+            if (comparePass == false) {
+                console.log("sending 401")
+               res.status(401).json({message: "Incorrect Password"})
             } else if (comparePass == true) {
                 console.log(final[0].ispremium)
                 if (final[0].ispremium==="1"){
