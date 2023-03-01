@@ -10,7 +10,7 @@ async function submitPass(event) {
    //    const abc = require('axios');
 
    // const axios = abc.create({
-   //    baseURL: 'http://3.215.181.196:4000'
+   //    baseURL: 'http://54.90.2.175:4000'
    //  });
 
 
@@ -30,7 +30,7 @@ async function submitPass(event) {
 
 
 
-      await axios.get(`http://3.215.181.196:4000/password/updatepassword/${fileName}`, passObj)
+      await axios.get(`http://54.90.2.175:4000/password/updatepassword/${fileName}`, passObj)
 
          .then(response => {
             document.getElementById("result").innerHTML = response.data.message;
@@ -51,7 +51,7 @@ async function resetPass(event) {
 
    const resetObj = { emailid }
 
-   await axios.post('http://3.215.181.196:4000/password/forgotpassword', resetObj)
+   await axios.post('http://54.90.2.175:4000/password/forgotpassword', resetObj)
        .then((response) => {
            // setNewPass(response.data.uuid)
            document.getElementById("result").innerHTML = response.data.message;
