@@ -249,6 +249,7 @@ document.getElementById("premium").onclick = async function (e) {
 
                     localStorage.setItem("token", res.data.token)
                     localStorage.setItem("premium", "yes");
+                    location.reload();
 
                 }
             })
