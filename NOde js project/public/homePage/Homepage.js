@@ -214,6 +214,9 @@ async function showPagination({
 
 }
 
+
+
+
 function getter() {
     localStorage.setItem("count", document.getElementById("NumberofRecords").value)
     location.reload();

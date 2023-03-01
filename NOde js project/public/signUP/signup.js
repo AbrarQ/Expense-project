@@ -14,8 +14,8 @@ async function saveuser(event) {
             passwordData
         }
         console.log(obj);
-       
-        
+    
+
         // sending a post request and passing object to the server
        await axios.post("http://54.90.2.175:4000/signup/save-users", obj)
             .then( (response) => {

@@ -44,7 +44,9 @@ app.use('/password',passwordRoutes);
 
   
   
-app.use((req, res)=>{
+app.use('/',(req, res)=>{
+
+     
     try{  console.log("url", req.url );
     res.sendFile(path.join(__dirname,`public/${req.url}`));
   
