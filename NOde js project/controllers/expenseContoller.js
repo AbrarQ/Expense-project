@@ -53,7 +53,7 @@ exports.getExpense = async (req, res, next) => {
     try {
         const PAGE = +req.query.page || 1
     
-        const ITEMS_PER_PAGE = +req.query.count;
+        const ITEMS_PER_PAGE = +req.query.count || 10;
         // console.log("items per ppage",ITEMS_PER_PAGE)
         // console.log("this is my page num", PAGE);
         const USER = req.user.id
