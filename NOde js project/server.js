@@ -1,6 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
+const dotenv = require ('dotenv');
+dotenv.config();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 const sequelize = require('./util/dbConnection');
@@ -17,7 +19,7 @@ const https =require('https')
 const axios = require('axios')
 app.use(express.static('public'))
 
-require("dotenv").config();
+
 app.use(cors())
 // app.use(helmet())
 app.use(compression())
@@ -66,8 +68,10 @@ forgotPass.belongsTo(User)
 
    sequelize.sync().then(result => 
     {
-        console.log(result)
+        console.log("SYNC DONE")
+       console.log(result)
     }).catch(err => {
+        console.log("SYNC FAILED")
         console.log(err)
     })
 
