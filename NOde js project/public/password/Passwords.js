@@ -41,7 +41,6 @@ async function submitPass(event) {
 
    } catch (err) { console.log(err) }
 
-
 }
 
 async function resetPass(event) {

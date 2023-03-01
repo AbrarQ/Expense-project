@@ -212,7 +212,6 @@ async function showPagination({
 
     }
 
-
 }
 
 function getter() {
