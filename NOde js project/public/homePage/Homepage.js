@@ -114,7 +114,7 @@ window.addEventListener("DOMContentLoaded", async () => {
       await axios.get('http://54.90.2.175:4000/premium/userverify', { headers: { "Authorization": token } })
                    .then((response) => { console.log(response.data) 
                         document.getElementById("premium").remove();
-                        document.getElementById("puser").innerHTML = "You are a premium user"
+                        document.getElementById("puser").innerHTML = "You are a premium user <br>"
              })
                 //     .catch(err => document.getElementById("puser").innerHTML += err.message + "<br>");
                 // document.getElementById("listoftop").innerHTML = "";
@@ -296,17 +296,18 @@ async function leaderboard(event) {
     document.getElementById("listoftop").innerHTML = ""
     if (token != null) {
         
-        document.getElementById("ldr").innerHTML = "<label style='font-weight: 800;'>Leader Board</label>";
+        
 
         const leaderArray = await axios.get('http://54.90.2.175:4000/premium/leaderboard', { headers: { "Authorization": token } })
             .then(response => { return response.data; })
             .catch((err)=>{
                 // console.log(err.response.data)
-                document.getElementById("listoftop").textContent += `${err.response.data}`
+                document.getElementById("leaderboardresponse").textContent += `${err.response.data}`
             })
             
 
         if (leaderArray != null) {
+            document.getElementById("ldr").innerHTML = "<label style='font-weight: 800;'>Leader Board</label>";
 
             for (let i = 0; i < leaderArray.length; i++) {
                 const parEle = document.getElementById("listoftop");
@@ -320,7 +321,7 @@ async function leaderboard(event) {
             }
         }
     } else {
-        document.getElementById("puser").innerHTML = "You are not a premium user"
+        document.getElementById("leaderboardresponse").innerHTML = "You are not a pom user"
 
     }
 }
@@ -364,29 +365,24 @@ async function oldfiles(event) {
 
     try {
         const token = localStorage.getItem('token')
-        if (token != null) {
+      
 
             //  console.log("consolelog wala",token)
             const expense = await axios.get('http://54.90.2.175:4000/premium/downloadlist', { headers: { "Authorization": token } })
                 .then(response => {
-                    console.log(response)
-                    document.getElementById("downloadResponse").textContent += `${response.data.message}`
+                    console.log(response.data.list)
+                    document.getElementById("olddownloadResponse").textContent += `${response.data.message}`
                     return response.data.list
-                }).catch((err)=> document.getElementById("downloadResponse").textContent += `${err.response.data}`)
-            //  console.log(expense)
-
-            document.getElementById("url").innerHTML = "<label style='font-weight: 800;'>Previous Downloads</label>";
-
-            for (let i = 0; i < expense.length; i++) {
-                document.getElementById("listofurls").innerHTML += `<li>${expense[i].createdAt} - <a href=${expense[i].url}> <button> Download</button></a></li>`
-
+                }).catch((err)=> {console.log(); document.getElementById("olddownloadResponse").textContent = `${err.response.data}`}) 
+            
+                if(expense != undefined){ 
+                    document.getElementById("url").innerHTML = "<label style='font-weight: 800;'>Previous Downloads</label>";
+                    for (let i = 0; i < expense.length; i++) {
+                    document.getElementById("listofurls").innerHTML += `<li>${expense[i].createdAt} - <a href=${expense[i].url}> <button> Download</button></a></li>`
+    
+                }
             }
-        } else {
-            console.log("You are not a premium user")
-        }
-
-
-
+           
     } catch (e) {
         console.log(e)
     }
