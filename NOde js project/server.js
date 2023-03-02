@@ -19,7 +19,6 @@ const https =require('https')
 const axios = require('axios')
 app.use(express.static('public'))
 
-
 app.use(cors())
 // app.use(helmet())
 app.use(compression())
@@ -68,17 +67,17 @@ forgotPass.belongsTo(User)
 
 
 
-   sequelize.sync().then(result => 
-    {
-        console.log("SYNC DONE")
-       console.log(result)
-    }).catch(err => {
-        console.log("SYNC FAILED")
-        console.log(err)
-    })
+//    sequelize.sync().then(result => 
+//     {
+//         console.log("SYNC DONE")
+//        console.log(result)
+//     }).catch(err => {
+//         console.log("SYNC FAILED")
+//         console.log(err)
+//     })
 
 
-// 3.215.181.196
+// // 3.215.181.196
 
 // https.createServer({key :privateKey , cert :certificate},app)
 app.listen(4000);
