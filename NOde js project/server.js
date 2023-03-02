@@ -47,6 +47,7 @@ app.use('/',(req, res)=>{
 
      
     try{  console.log("url", req.url );
+    console.log("pulling Requests")
     res.sendFile(path.join(__dirname,`public/${req.url}`));
   
    
@@ -64,8 +65,6 @@ Expense.belongsTo(User)
 
 User.hasMany(forgotPass);
 forgotPass.belongsTo(User)
-
-
 
 //    sequelize.sync().then(result => 
 //     {
