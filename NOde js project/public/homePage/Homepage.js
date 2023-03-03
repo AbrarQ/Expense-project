@@ -57,11 +57,11 @@ function returnItToUi(obj) {
         const childElement = document.createElement("li");
         // using text content to display the data passed on from the obj
         childElement.textContent = obj.amount + ' - ' + obj.description + ' - ' + obj.category + ' - ';
-
-
+   
         // giving attibutes to DELETE button
         const delbtn = document.createElement("input");
         delbtn.type = "button";
+    
         delbtn.value = "Delete";
         delbtn.style = "margin-bottom: 5px;"
 
@@ -158,7 +158,7 @@ async function getExpense(page) {
 async function sendToUi(obj) {
 
     if (obj.length == 0) {
-        document.getElementById("puser").innerHTML +="<br> No Transactions to show"
+        document.getElementById("puser").innerHTML ="<br> No Transactions to show"
     }
 
     for (let i = 0; i < obj.length; i++) {
@@ -186,14 +186,16 @@ async function showPagination({
     if (haspreviouspage) {
 
         const prevBtn = document.createElement('button');
-        prevBtn.innerHTML = previouspage;
+
+        prevBtn.innerHTML = `<li class="page-item"><a class="page-link">Previous page</a></li>`
         prevBtn.addEventListener('click', async () => { await getExpense(previouspage) })
         pagination.appendChild(prevBtn)
         pagination.append(" ")
     }
 
     const currbtn = document.createElement('button');
-    currbtn.innerHTML = `<h3>${currentpage}</h3>`
+   
+    currbtn.innerHTML =  `<li class="page-item"><a class="page-link">${currentpage}</a></li>`
     currbtn.addEventListener('click', () => {
         if (currentpage == lastpage) {
             getExpense(1)
@@ -206,7 +208,8 @@ async function showPagination({
     if (hasnextpage) {
 
         const nextBtn = document.createElement('button');
-        nextBtn.innerHTML = nextpage;
+      
+        nextBtn.innerHTML = `<li class="page-item"><a class="page-link">Next Page</a></li>`;
         nextBtn.addEventListener('click', async () => { await getExpense(nextpage) })
         pagination.appendChild(nextBtn)
 
@@ -372,7 +375,7 @@ async function oldfiles(event) {
             const expense = await axios.get('http://localhost:4000/premium/downloadlist', { headers: { "Authorization": token } })
                 .then(response => {
                     console.log(response.data.list)
-                    document.getElementById("olddownloadResponse").textContent = `${response.data.message}`
+                   
                     return response.data.list
                 }).catch((err)=> {console.log(); document.getElementById("olddownloadResponse").textContent = `${err.response.data}`}) 
             

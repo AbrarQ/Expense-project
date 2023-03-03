@@ -66,7 +66,7 @@ exports.downloadsList  = async (req, res, next)=>{
    if (req.user.ispremium== true){
     const list = await S3helper.urlsFetch(req.user.id);
     console.log(list)
-res.status(200).json({list, message: "Downloading file in a moment"})
+res.status(200).json({list})
 } else{
    res.status(402).json("You are not a premium user")
 }
