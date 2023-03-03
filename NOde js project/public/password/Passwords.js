@@ -5,43 +5,44 @@
  */ 
 
 
-async function submitPass(event) {
-   event.preventDefault();
    //    const abc = require('axios');
 
    // const axios = abc.create({
-   //    baseURL: 'http://107.20.233.221:4000'
+   //    baseURL: 'http://localhost:4000'
    //  });
 
+// document.getElementById("reset").onclick =  async function(e){
+//    try {
 
-   try {
-
-      const newpass = document.getElementById("pass").value;
-      console.log(newpass)
-
-
-
-      const path = window.location.pathname;
-      const fileName = path.split('/').pop();
-      console.log(fileName)
-
-      const passObj = { newpass, fileName }
-      console.log(passObj)
+//       const newpass = document.getElementById("pass").value;
+//       console.log(newpass)
 
 
 
-      await axios.get(`http://107.20.233.221:4000/password/updatepassword/${fileName}`, passObj)
+//       const path = window.location.pathname;
+//       const fileName = path.split('/').pop();
+//       console.log(fileName)
 
-         .then(response => {
-            document.getElementById("result").innerHTML = response.data.message;
-            document.getElementById("pass").value;
-         })
-         .catch(err => document.getElementById("result").innerHTML = err.message)
+//       const passObj = { newpass, fileName }
+//       console.log(passObj)
 
 
-   } catch (err) { console.log(err) }
 
-}
+//       await axios.get('http://localhost:4000/password/updatepassword', passObj)
+
+//          .then(response => {
+//             document.getElementById("result").innerHTML = response.data.message;
+//             document.getElementById("pass").value;
+//          })
+//          .catch(err => document.getElementById("result").innerHTML = err.message)
+
+
+//    } catch (err) { console.log(err) }
+
+// // }
+
+
+
 
 async function resetPass(event) {
    event.preventDefault();
@@ -50,7 +51,7 @@ async function resetPass(event) {
 
    const resetObj = { emailid }
 
-   await axios.post('http://107.20.233.221:4000/password/forgotpassword', resetObj)
+   await axios.post('http://localhost:4000/password/forgotpassword', resetObj)
        .then((response) => {
            // setNewPass(response.data.uuid)
            document.getElementById("result").innerHTML = response.data.message;

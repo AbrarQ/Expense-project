@@ -34,13 +34,13 @@ const passwordRoutes = require('./routes/passwordRoutes');
 const morgan = require('morgan');
 const LogStream = fs.createWriteStream(path.join(__dirname,'access.log'),{flags : 'a'})
 app.use(morgan('combined',{ stream : LogStream }) )
-
+app.use(passwordRoutes);
 app.use('/signup',signuproutes);
 app.use('/signin',signinroutes);
 app.use('/expense',expenseroutes);
 app.use('/purchase',purchaseRoutes);
 app.use('/premium',premiumUserRoutes);
-app.use('/password',passwordRoutes);
+
 
   
   
@@ -68,14 +68,14 @@ forgotPass.belongsTo(User)
 
 
 
-   sequelize.sync().then(result => 
-    {
-        console.log("SYNC DONE")
-       console.log(result)
-    }).catch(err => {
-        console.log("SYNC FAILED")
-        console.log(err)
-    })
+//    sequelize.sync().then(result => 
+//     {
+//         console.log("SYNC DONE")
+//        console.log(result)
+//     }).catch(err => {
+//         console.log("SYNC FAILED")
+//         console.log(err)
+//     })
 
 
 // 3.215.181.196

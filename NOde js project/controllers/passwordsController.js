@@ -20,7 +20,7 @@ exports.passwordEmailer = async (req, res, next) => {
     try{
         const mail = req.body.emailid;
     const uuidx = req.middlewareUUID;
-    // console.log(uuidx, "is the last step")
+   console.log("Entering email sender")
    
 
     const Sib = require('sib-api-v3-sdk');
@@ -36,7 +36,7 @@ exports.passwordEmailer = async (req, res, next) => {
     sendSmtpEmail.sender = { "email": "abrarquraishi96@gmail.com", "name": "Abrar" };
     sendSmtpEmail.subject = "Reset-Password";
     sendSmtpEmail.textContent = "Hey Click below to reset Your Password";
-    sendSmtpEmail.htmlContent = `<a href="http://localhost:4000/password/resetpassword/${uuidx}">Reset Password</a>`;
+    sendSmtpEmail.htmlContent = `<form  onsubmit="submitPass(event)" ><a href="http://localhost:4000/password/resetpassword/${uuidx}">Reset Password</a></form>`;
     console.log(sendSmtpEmail.htmlContent)
 
     // send the email
@@ -57,28 +57,74 @@ exports.passwordEmailer = async (req, res, next) => {
 
 
 exports.sendhtml = async (req, res, next)=> {
-  // console.log("sendinfìg html file")
-  // res.set({'Content-Security-Policy' : "script-src 'self'"});
-  //    res.sendFile(path.join(__dirname, '../public/password/SetNewPass.html'))
+  // console.log("sending html file")
+  //   await res.sendFile(path.join(__dirname, '../public/password/SetNewPass.html'))
+
+  //   //  next();
   const uuid =  req.params.uuid;
   console.log("uudi is sending to link sendhtml",uuid)
   res.status(200).send(`<html>
-  <script>
-      function formsubmitted(e){
-          e.preventDefault();
-          console.log('called')
-      }
-  </script>
-  <form action="/password/updatepassword/${uuid}" method="get">
+  
+  <form>
       <label for="newpassword">Enter New password</label>
-      <input name="newpassword" type="password" required></input>
-      <button>reset password</button>
+      <input id ="pass" name="newpassword" type="password" required></input>
+      <button id ="reset">reset password</button>
+      <p id="result"></p>
   </form>
+  <form action="../../signIN/signin.html">
+  <button>Existing User - Sign in </button>
+</form>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js" integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script>
+   
+document.getElementById("reset").onclick =  async function(e){
+  try {
+      e.preventDefault();
+     const newpass = document.getElementById("pass").value;
+     console.log(newpass)
+
+
+
+     const path = window.location.pathname;
+     const fileName = path.split('/').pop();
+     console.log(fileName)
+
+     const passObj = { newpass, fileName }
+     console.log(passObj)
+
+
+
+     await axios.post('http://localhost:4000/password/updatepassword', passObj)
+
+        .then(response => {
+           document.getElementById("result").innerHTML = response.data.message;
+           document.getElementById("pass").value;
+        })
+        .catch(err =>{ console.log(err);
+          document.getElementById("result").innerHTML = err.message})
+
+
+  } catch (err) { console.log(err) }
+
+}
+
+
+  </script>
 </html>`
 )
 res.end()
-
 }
+
+
+// exports.sendjs= async (req, res) => {
+//   try{
+//     console.log("sending JS file")
+//    await res.set('Content-Type', 'application/javascript');
+//   res.sendFile(path.join(__dirname,'../public/password/Passwords.js'))
+//   }catch(e){console.log("send js error",e)}
+  
+// };
+ 
     
 
   
@@ -95,30 +141,32 @@ res.end()
   
   
   exports.storepass = async (req, res, next) => {
+    console.log("Entering store pass", req.body)
   try{
+    
     const t = await  sequelize.transaction();
-  console.log("entering store pass",req.url)
-    const userID = await helperFunction.userID(req.params.uuid)
+
+    const userID = await helperFunction.userID(req.body.fileName)
     console.log(userID)
     if(userID.isactive ===0){
       console.log("cant use me")
-      res.status(301).json({error : "Url Expired!!!", success: false});
+      res.status(401).json({err : "Url Expired!!!", success: false});
     }  else {
   
-    const pass = await req.query.newpassword
+    const pass = await req.body.newpass
   console.log(pass)
     const salt = await bcrypt.genSalt(10);
     const hashedPass = await bcrypt.hash(pass, salt)
   
   
   
-    const passUpdate = await usersModel.update({
+   await usersModel.update({
       
       password: hashedPass
     }, { where: { id: userID.userloginId }, transaction: t })
       .then(async (response) => {
   
-        const uuidUpdate = await linkModel.update({
+      await linkModel.update({
           isactive: false
         }, { where: { userloginId: userID.userloginId }, transaction: t })
   

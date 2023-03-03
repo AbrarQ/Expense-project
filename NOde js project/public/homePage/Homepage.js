@@ -35,7 +35,7 @@ async function saveExpense(event) {
 
     const token = localStorage.getItem('token')
 
-    const status = await axios.post('http://107.20.233.221:4000/expense/add-expense', expObj, { headers: { "Authorization": token } })
+    const status = await axios.post('http://localhost:4000/expense/add-expense', expObj, { headers: { "Authorization": token } })
         .then((response) => { returnItToUi(response.data) }).catch(err => console.log(err))
     
     if (document.getElementById("listoftop").innerHTML != "") {
@@ -82,7 +82,7 @@ function returnItToUi(obj) {
                 const token = localStorage.getItem('token')
                 // console.log(id)
                 // console.log(token)
-                const user = await axios.delete(`http://107.20.233.221:4000/expense/delete-expense/${obj.id}`, { headers: { "Authorization": token } })
+                const user = await axios.delete(`http://localhost:4000/expense/delete-expense/${obj.id}`, { headers: { "Authorization": token } })
                     .then((response) => { parentElement.removeChild(childElement); document.getElementById("puser").innerHTML += response.data.message + "<br>" })
                     .catch(err => document.getElementById("puser").innerHTML += err.message + "<br>");
                 document.getElementById("listoftop").innerHTML = "";
@@ -111,7 +111,7 @@ window.addEventListener("DOMContentLoaded", async () => {
         const token = localStorage.getItem('token')
         console.log(token)
         if(token != null){
-      await axios.get('http://107.20.233.221:4000/premium/userverify', { headers: { "Authorization": token } })
+      await axios.get('http://localhost:4000/premium/userverify', { headers: { "Authorization": token } })
                    .then((response) => { console.log(response.data) 
                         document.getElementById("premium").remove();
                         document.getElementById("puser").innerHTML = "You are a premium user <br>"
@@ -148,7 +148,7 @@ async function getExpense(page) {
     document.getElementById("listofexpenses").innerHTML = "";
 
     const token = localStorage.getItem('token')
-    const dbData = await axios.get(`http://107.20.233.221:4000/expense/get-expense?page=${page}&count=${COUNT}`, { headers: { "Authorization": token } })
+    const dbData = await axios.get(`http://localhost:4000/expense/get-expense?page=${page}&count=${COUNT}`, { headers: { "Authorization": token } })
         .then(response => { sendToUi(response.data.rows); showPagination(response.data); console.log(response.data) })
         .catch(err => console.log(err))
 
@@ -228,7 +228,7 @@ document.getElementById("premium").onclick = async function (e) {
     // So inorder to know which user is creating we use token saved
     const token = localStorage.getItem('token')
     // console.log(token)
-    const response = await axios.get('http://107.20.233.221:4000/purchase/premium', { headers: { "Authorization": token } })
+    const response = await axios.get('http://localhost:4000/purchase/premium', { headers: { "Authorization": token } })
     // console.log(response)
 
     var options = {
@@ -238,7 +238,7 @@ document.getElementById("premium").onclick = async function (e) {
         "handler": async function (response) {
             // console.log(response.razorpay_payment_id)
             // console.log("before axios")
-            await axios.post('http://107.20.233.221:4000/purchase/updatetransactionstatus', {
+            await axios.post('http://localhost:4000/purchase/updatetransactionstatus', {
                 order_id: options.order_id,
                 payment_id: response.razorpay_payment_id,
                 status: "Success"
@@ -271,7 +271,7 @@ document.getElementById("premium").onclick = async function (e) {
 
         const errobj = { reason }
 
-        await axios.post('http://107.20.233.221:4000/purchase/updatetransactionstatus', { status: "Failed" }, { headers: { "Authorization": token } }).then(res => {
+        await axios.post('http://localhost:4000/purchase/updatetransactionstatus', { status: "Failed" }, { headers: { "Authorization": token } }).then(res => {
             if (res.status === 402) {
 
                 alert(res.data.message)
@@ -299,7 +299,7 @@ async function leaderboard(event) {
         
         
 
-        const leaderArray = await axios.get('http://107.20.233.221:4000/premium/leaderboard', { headers: { "Authorization": token } })
+        const leaderArray = await axios.get('http://localhost:4000/premium/leaderboard', { headers: { "Authorization": token } })
             .then(response => { return response.data; })
             .catch((err)=>{
                 // console.log(err.response.data)
@@ -341,7 +341,7 @@ async function download(event) {
 
         const token = localStorage.getItem('token')
         console.log("consolelog wala", token)
-        const expense = await axios.get('http://107.20.233.221:4000/premium/download', { headers: { "Authorization": token } })
+        const expense = await axios.get('http://localhost:4000/premium/download', { headers: { "Authorization": token } })
             .then(response => {
                
                 if (response.status === 200) {
@@ -369,7 +369,7 @@ async function oldfiles(event) {
       
 
             //  console.log("consolelog wala",token)
-            const expense = await axios.get('http://107.20.233.221:4000/premium/downloadlist', { headers: { "Authorization": token } })
+            const expense = await axios.get('http://localhost:4000/premium/downloadlist', { headers: { "Authorization": token } })
                 .then(response => {
                     console.log(response.data.list)
                     document.getElementById("olddownloadResponse").textContent = `${response.data.message}`

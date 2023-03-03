@@ -14,7 +14,7 @@ async function loguser(event) {
         console.log(obj);
 
         // sending a post request and passing object to the server
-await axios.post(`http://107.20.233.221:4000/signin/user`,obj)
+await axios.post(`http://localhost:4000/signin/user`,obj)
             .then(res => {
                 console.log(res);
 

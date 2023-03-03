@@ -4,10 +4,12 @@ const uuidMiddleware = require('../middleware/uuidFunctions');
 const passwordController = require('../controllers/passwordsController');
 
 
-router.post('/forgotpassword',uuidMiddleware.uuidDbCheck, passwordController.passwordEmailer);
+router.post('/password/forgotpassword',uuidMiddleware.uuidDbCheck, passwordController.passwordEmailer);
 
-router.get('/resetpassword/:uuid', passwordController.sendhtml  );
-router.get('/updatepassword/:uuid', passwordController.storepass );
+router.get('/password/resetpassword/:uuid', passwordController.sendhtml );
+// router.post('/password/resetpassword/Passwords.js', passwordController.sendjs );        
+// router.post('/password/resetpassword/Passwords.js', passwordController.sendjs );        
+router.post('/password/updatepassword', passwordController.storepass );
 
 
 
